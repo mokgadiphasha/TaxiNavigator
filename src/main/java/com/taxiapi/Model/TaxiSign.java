@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "taxi_ranks")
+@Table(name = "Taxi_signs")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,8 +19,5 @@ public class TaxiSign {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private String address;
+    private String signDescription;
 }

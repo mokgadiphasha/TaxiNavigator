@@ -29,9 +29,9 @@ public class TaxiRoute {
 
     @ManyToOne
     @JoinColumn(name = "taxi_sign_id", nullable = false)
-    private TaxiSign taxiSign;
+    private TaxiRank taxiRank;
 
     @ManyToOne
     @JoinColumn(name = "rank_id", nullable = false)
-    private TaxiRank taxiRank;
+    private TaxiSign taxiSign;
 }
