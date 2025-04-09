@@ -1,5 +1,5 @@
 package com.taxiapi.Service;
 
-public interface UpdateService <T>{
+public interface IUpdateService<T>{
     void update(T entity);
 }

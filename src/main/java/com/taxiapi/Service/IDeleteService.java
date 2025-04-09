@@ -1,5 +1,5 @@
 package com.taxiapi.Service;
 
-public interface DeleteService<T> {
+public interface IDeleteService<T> {
     void deleteById(T id);
 }

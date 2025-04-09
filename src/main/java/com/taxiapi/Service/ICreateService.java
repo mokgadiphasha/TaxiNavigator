@@ -1,6 +1,6 @@
 package com.taxiapi.Service;
 
-public interface CreateService <T>{
+public interface ICreateService<T>{
 
     void create(T entity);
 }

@@ -4,11 +4,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public class GenericCrudServiceIIII<T,ID> implements ICreateService<T>, IDeleteService<ID>, IFindAllService<T>, IUpdateService<T> {
+public class GenericCrudService<T,ID> implements ICreateService<T>, IDeleteService<ID>, IFindAllService<T>, IUpdateService<T> {
 
     private final JpaRepository<T, ID> repository;
 
-    public GenericCrudServiceIIII(JpaRepository<T, ID> repository){
+    public GenericCrudService(JpaRepository<T, ID> repository){
         this.repository = repository;
     }
 
