@@ -38,14 +38,16 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     }
 
 
-    public void deleteRoute(TaxiRoute route){
-        deleteById(route.getId());
+    public void deleteRoute(Long id){
+        deleteById(id);
     }
 
 
     public void saveRoute(TaxiRoute route){
         create(route);
     }
+
+
 
 
 
