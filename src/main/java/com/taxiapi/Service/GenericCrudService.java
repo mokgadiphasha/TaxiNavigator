@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public class GenericCrudService<T,ID> implements ICreateService<T>, IDeleteService<ID>, IFindAllService<T>, IUpdateService<T> {
+public class GenericCrudService<T,ID> implements ICreateService<T>, IDeleteService<ID>, IFindAllService<T>, IUpdateService<T>, IFindById<T,ID> {
 
     private final JpaRepository<T, ID> repository;
 
@@ -31,5 +31,11 @@ public class GenericCrudService<T,ID> implements ICreateService<T>, IDeleteServi
     @Override
     public void update(T entity) {
         repository.save(entity);
+    }
+
+
+    @Override
+    public T findById(ID id) {
+        return repository.findById(id).get();
     }
 }
