@@ -20,7 +20,7 @@ public class DatabaseRouteFinder implements IFindRouteService {
                      String toLocation, TaxiRouteRepository db) {
 
         List<TaxiRoute> route = db
-                .findByfromLocationAndtoLocation(fromLocation,toLocation);
+                .findByFromLocationAndToLocation(fromLocation,toLocation);
         double total_fare = util.getTotal(route);
 
         return new TaxiRoutesResponse(route,total_fare);
