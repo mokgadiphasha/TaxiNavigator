@@ -34,6 +34,6 @@ public class AdminController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public void saveRoute(@Validated @RequestBody TaxiRoute route){
-        service.create(route);
+        service.saveRoute(route);
     }
 }
