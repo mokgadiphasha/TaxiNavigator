@@ -18,7 +18,7 @@ public class GenericCrudService<T,ID> implements ICreateService<T>, IDeleteServi
     }
 
     @Override
-    public void deleteById(ID id) {
+    public void  deleteById(ID id) {
         repository.deleteById(id);
 
     }

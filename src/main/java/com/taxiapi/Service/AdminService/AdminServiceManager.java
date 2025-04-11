@@ -1,6 +1,8 @@
 package com.taxiapi.Service.AdminService;
 
+import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
+import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Repository.TaxiRouteRepository;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.GenericCrudService;
@@ -14,14 +16,18 @@ import static java.util.Arrays.stream;
 
 @Service
 public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
-    private TaxiRouteRepository repository ;
     private final Utility util;
+    private final AdminTaxiRankService taxiRankService;
+    private final AdminTaxiSignService taxiSignService;
+
 
     @Autowired
-    public AdminServiceManager(TaxiRouteRepository repository,Utility util) {
+    public AdminServiceManager(TaxiRouteRepository repository, Utility util,
+                               AdminTaxiRankService taxiRankService, AdminTaxiSignService taxiSignService) {
         super(repository);
-        this.repository = repository;
         this.util = util;
+        this.taxiRankService = taxiRankService;
+        this.taxiSignService = taxiSignService;
     }
 
 
@@ -48,7 +54,34 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     }
 
 
+    public void saveTaxiSign(TaxiSign entity){
+        taxiSignService.saveTaxiSign(entity);
+    }
 
+
+    public void updateTaxiSign(TaxiSign entity){
+        taxiSignService.updateTaxiSign(entity);
+    }
+
+
+    public void deleteTaxiSign(Long id){
+        taxiSignService.deleteTaxiSign(id);
+    }
+
+
+    public void saveTaxiRank(TaxiRank entity){
+        taxiRankService.saveTaxiRank(entity);
+    }
+
+
+    public void updateTaxiRank(TaxiRank entity){
+        taxiRankService.updateTaxiRank(entity);
+    }
+
+
+    public void deleteTaxiRank(Long id){
+        taxiRankService.deleteTaxiRank(id);
+    }
 
 
 

@@ -27,11 +27,11 @@ public class TaxiRoute {
     @Column(nullable = false)
     private Double fare;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "taxi_sign_id", nullable = false)
     private TaxiRank taxiRank;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "rank_id", nullable = false)
     private TaxiSign taxiSign;
 }
