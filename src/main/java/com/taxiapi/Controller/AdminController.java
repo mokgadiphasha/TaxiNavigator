@@ -1,10 +1,8 @@
 package com.taxiapi.Controller;
 
 import com.taxiapi.Model.TaxiRoute;
-import com.taxiapi.Responses.FindAllRoutesResponse;
+import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.AdminService.AdminServiceManager;
-import com.taxiapi.Service.GenericCrudService;
-import com.taxiapi.Service.IFindAllService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +16,7 @@ public class AdminController {
 
 
     @GetMapping("")
-    public FindAllRoutesResponse findAllRoutes(){
+    public TaxiRoutesResponse findAllRoutes(){
         return service.findAllRoutes();
     }
 
