@@ -45,54 +45,6 @@ public class AdminController {
     }
 
 
-    @PostMapping("/taxisign")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void saveTaxiSign(@Validated @RequestBody TaxiSign taxiSign){
-        service.saveTaxiSign(taxiSign);
-    }
 
 
-    @PutMapping("/taxisign")
-    public void updateTaxiSign(@Validated @RequestBody TaxiSign taxiSign){
-        service.updateTaxiSign(taxiSign);
-    }
-
-
-    @DeleteMapping("/taxisign/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTaxiSign(@PathVariable Long id){
-        service.deleteTaxiSign(id);
-    }
-
-
-    @GetMapping("/taxisign")
-    public TaxiSignResponse findAllTaxiSigns(){
-        return service.findAllTaxiSigns();
-    }
-
-
-    @PostMapping("/taxirank")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void saveTaxiRank(@Validated @RequestBody TaxiRank taxiRank){
-        service.saveTaxiRank(taxiRank);
-    }
-
-
-    @PutMapping("/taxirank")
-    public void updateTaxiRank(@Validated @RequestBody TaxiRank taxiRank){
-        service.updateTaxiRank(taxiRank);
-    }
-
-
-    @DeleteMapping("/taxirank/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTaxiRank(@PathVariable Long id){
-        service.deleteTaxiRank(id);
-    }
-
-
-    @GetMapping("/taxirank")
-    public TaxiRankResponse findAllTaxiRank(){
-        return service.findAllTaxiRanks();
-    }
 }
