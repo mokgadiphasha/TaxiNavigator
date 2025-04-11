@@ -14,6 +14,7 @@ public class RouteFinderServiceManager extends GenericCrudService<TaxiRoute,Long
     private IFindRouteService algorithmRouteFinder;
     private IFindRouteService databaseRouteFinder;
 
+
     public RouteFinderServiceManager(TaxiRouteRepository repository,
                                      @Qualifier("algorithmRouteFinder")
               IFindRouteService algorithmRouteFinder ,

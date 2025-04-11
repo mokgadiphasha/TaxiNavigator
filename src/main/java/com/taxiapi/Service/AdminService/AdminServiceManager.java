@@ -4,7 +4,9 @@ import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Repository.TaxiRouteRepository;
+import com.taxiapi.Responses.TaxiRankResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
+import com.taxiapi.Responses.TaxiSignResponse;
 import com.taxiapi.Service.GenericCrudService;
 import com.taxiapi.Service.Utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +75,10 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
         taxiRankService.saveTaxiRank(entity);
     }
 
+    public TaxiSignResponse findAllTaxiSigns(){
+        return taxiSignService.findAllTaxiSigns();
+    }
+
 
     public void updateTaxiRank(TaxiRank entity){
         taxiRankService.updateTaxiRank(entity);
@@ -81,6 +87,11 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
 
     public void deleteTaxiRank(Long id){
         taxiRankService.deleteTaxiRank(id);
+    }
+
+
+    public TaxiRankResponse findAllTaxiRanks(){
+        return taxiRankService.returnAllTaxiSigns();
     }
 
 
