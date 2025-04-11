@@ -1,5 +1,5 @@
 package com.taxiapi.Service;
 
-public interface IFindRouteService<T,M>{
-    <K> T routeFinder (M fromLocation,M toLocation, K db);
+public interface IFindRouteService<T,M,L>{
+    <K> L routeFinder (M fromLocation,M toLocation, K db);
 }

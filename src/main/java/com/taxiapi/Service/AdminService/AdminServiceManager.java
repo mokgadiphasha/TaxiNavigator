@@ -2,7 +2,7 @@ package com.taxiapi.Service.AdminService;
 
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Repository.TaxiRouteRepository;
-import com.taxiapi.Responses.FindAllRoutesResponse;
+import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.GenericCrudService;
 import com.taxiapi.Service.Utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +25,11 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     }
 
 
-    public FindAllRoutesResponse findAllRoutes(){
+    public TaxiRoutesResponse findAllRoutes(){
         List<TaxiRoute> routes = findAll();
         double total = util.getTotal(routes);
 
-        return new FindAllRoutesResponse(routes,total);
+        return new TaxiRoutesResponse(routes,total);
     }
 
 
