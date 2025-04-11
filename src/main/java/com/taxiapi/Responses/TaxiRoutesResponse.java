@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class FindAllRoutesResponse {
+public class TaxiRoutesResponse {
     private List<TaxiRoute> routes;
     private double totalTaxiFare;
 }
