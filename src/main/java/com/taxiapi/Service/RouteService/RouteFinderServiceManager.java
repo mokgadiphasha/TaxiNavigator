@@ -2,7 +2,6 @@ package com.taxiapi.Service.RouteService;
 
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Repository.TaxiRouteRepository;
-import com.taxiapi.Responses.TaxiRouteResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.GenericCrudService;
 import com.taxiapi.Service.IFindRouteService;
@@ -12,16 +11,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class RouteFinderServiceManager extends GenericCrudService<TaxiRoute,Long> {
     private TaxiRouteRepository repository;
-    private IFindRouteService<String,String, TaxiRoutesResponse> algorithmRouteFinder;
-    private IFindRouteService<String,String, TaxiRouteResponse> databaseRouteFinder;
+    private IFindRouteService algorithmRouteFinder;
+    private IFindRouteService databaseRouteFinder;
 
     public RouteFinderServiceManager(TaxiRouteRepository repository,
                                      @Qualifier("algorithmRouteFinder")
-              IFindRouteService<String,String,TaxiRoutesResponse> algorithmRouteFinder ,
+              IFindRouteService algorithmRouteFinder ,
                                      @Qualifier("databaseRouteFinder")
-             IFindRouteService<String,String,TaxiRouteResponse> databaseRouteFinder) {
+             IFindRouteService databaseRouteFinder) {
                     super(repository);
                     this.repository = repository;
     }
+
+
+    public TaxiRoutesResponse findRoute(String fromLocation, String toLocation){
+        TaxiRoutesResponse route = databaseRouteFinder
+                .routeFinder(fromLocation,toLocation, repository);
+
+         if(route.getRoutes().isEmpty()){
+             route = algorithmRouteFinder
+                     .routeFinder(fromLocation,toLocation,repository);
+         }
+
+        return route;
+    }
+
+
+
+
+
+
+
 
 }
