@@ -8,7 +8,7 @@ import com.taxiapi.Responses.TaxiRankResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Responses.TaxiSignResponse;
 import com.taxiapi.Service.GenericCrudService;
-import com.taxiapi.Service.Utility.Utility;
+import com.taxiapi.Service.Utility.ServiceUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +18,13 @@ import static java.util.Arrays.stream;
 
 @Service
 public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
-    private final Utility util;
+    private final ServiceUtility util;
     private final AdminTaxiRankService taxiRankService;
     private final AdminTaxiSignService taxiSignService;
 
 
     @Autowired
-    public AdminServiceManager(TaxiRouteRepository repository, Utility util,
+    public AdminServiceManager(TaxiRouteRepository repository, ServiceUtility util,
                                AdminTaxiRankService taxiRankService, AdminTaxiSignService taxiSignService) {
         super(repository);
         this.util = util;

@@ -4,7 +4,7 @@ import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Repository.TaxiRouteRepository;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.IFindRouteService;
-import com.taxiapi.Service.Utility.Utility;
+import com.taxiapi.Service.Utility.ServiceUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class DatabaseRouteFinder implements IFindRouteService {
 
     @Autowired
-    private Utility util;
+    private ServiceUtility util;
 
 
     @Override
