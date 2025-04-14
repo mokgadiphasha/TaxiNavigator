@@ -2,12 +2,10 @@ package com.taxiapi.Service.Utility;
 
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Repository.TaxiRouteRepository;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class ServiceUtility {
@@ -24,14 +22,14 @@ public class ServiceUtility {
         HashMap<String,List<String>> graph = new HashMap<>();
 
         List<TaxiRoute> routes = getDatabaseRoutes(db,fromLocation);
-        List<String> neighbors = insertGraphNodes(routes);
+        List<String> neighbors = translateToGraphNodes(routes);
         graph.putIfAbsent(fromLocation,neighbors);
 
 
         for (int i = 0; i < neighbors.size(); i++){
             fromLocation = neighbors.get(i);
             routes = getDatabaseRoutes(db,fromLocation);
-            List<String> new_neighbors = insertGraphNodes(routes);
+            List<String> new_neighbors = translateToGraphNodes(routes);
             graph.putIfAbsent(fromLocation,new_neighbors);
             neighbors.addAll(new_neighbors);
         }
@@ -41,7 +39,7 @@ public class ServiceUtility {
     }
 
 
-    public List<String> insertGraphNodes(List<TaxiRoute> routes){
+    public List<String> translateToGraphNodes(List<TaxiRoute> routes){
         return routes.stream()
                 .map(TaxiRoute::getToLocation)
                 .toList();
