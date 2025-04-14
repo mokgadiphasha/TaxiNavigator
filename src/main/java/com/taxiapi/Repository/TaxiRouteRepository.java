@@ -8,4 +8,6 @@ import java.util.List;
 public interface TaxiRouteRepository extends JpaRepository<TaxiRoute,Long> {
     List<TaxiRoute> findByFromLocationAndToLocation(String fromLocation,
                                                     String toLocation);
+
+    List<TaxiRoute> findByFromLocation(String fromLocation);
 }
