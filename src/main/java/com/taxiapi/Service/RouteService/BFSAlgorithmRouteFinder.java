@@ -9,14 +9,24 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BFSAlgorithmRouteFinder implements IFindRouteService {
+    TaxiRouteRepository repository;
+    ServiceUtility util;
+
 
     @Autowired
-    private ServiceUtility util;
+    public BFSAlgorithmRouteFinder(TaxiRouteRepository repository,
+                                   ServiceUtility util){
+        this.repository = repository;
+        this.util = util;
+    }
 
 
     @Override
     public  TaxiRoutesResponse routeFinder(String fromLocation,
                            String toLocation, TaxiRouteRepository db) {
+
+        System.out.println(util
+                .generateGraph(fromLocation,repository).toString());
         return null;
     }
 }

@@ -45,6 +45,7 @@ public class ServiceUtility {
                 .toList();
     }
 
+
     public List<TaxiRoute> getDatabaseRoutes(TaxiRouteRepository db,
                                              String fromLocation ){
         return db.findByFromLocation(fromLocation);
