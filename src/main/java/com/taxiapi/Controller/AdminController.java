@@ -54,7 +54,7 @@ public class AdminController {
     }
 
 
-    @PostMapping("/routes")
+    @PostMapping("/upload-template")
     public EmptyFileResponse saveRoutes(@RequestParam("file")MultipartFile file){
         return service.saveFromCSVFile(file);
     }
