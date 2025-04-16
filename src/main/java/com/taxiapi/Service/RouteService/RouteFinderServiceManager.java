@@ -5,6 +5,7 @@ import com.taxiapi.Repository.TaxiRouteRepository;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.GenericCrudService;
 import com.taxiapi.Service.IFindRouteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class RouteFinderServiceManager extends GenericCrudService<TaxiRoute,Long
     private IFindRouteService algorithmRouteFinder;
     private IFindRouteService databaseRouteFinder;
 
-
+    @Autowired
     public RouteFinderServiceManager(TaxiRouteRepository repository,
                                      @Qualifier("algorithmRouteFinder")
               IFindRouteService algorithmRouteFinder ,
