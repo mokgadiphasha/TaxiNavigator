@@ -10,4 +10,7 @@ public interface TaxiRouteRepository extends JpaRepository<TaxiRoute,Long> {
                                                     String toLocation);
 
     List<TaxiRoute> findByFromLocation(String fromLocation);
+
+
+
 }
