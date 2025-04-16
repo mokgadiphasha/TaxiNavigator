@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RouteFinderServiceManager extends GenericCrudService<TaxiRoute,Long> {
-    private TaxiRouteRepository repository;
-    private IFindRouteService algorithmRouteFinder;
-    private IFindRouteService databaseRouteFinder;
+    private final TaxiRouteRepository repository;
+    private final IFindRouteService algorithmRouteFinder;
+    private final IFindRouteService databaseRouteFinder;
 
     @Autowired
     public RouteFinderServiceManager(TaxiRouteRepository repository,
@@ -23,6 +23,8 @@ public class RouteFinderServiceManager extends GenericCrudService<TaxiRoute,Long
              IFindRouteService databaseRouteFinder) {
                     super(repository);
                     this.repository = repository;
+                    this.databaseRouteFinder = databaseRouteFinder;
+                    this.algorithmRouteFinder = algorithmRouteFinder;
     }
 
 

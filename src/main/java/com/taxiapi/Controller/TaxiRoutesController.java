@@ -3,21 +3,18 @@ package com.taxiapi.Controller;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.RouteService.RouteFinderServiceManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/routes/")
+@RequestMapping("/api/users/routes")
 public class TaxiRoutesController {
     @Autowired
     private RouteFinderServiceManager service;
 
-    @GetMapping("/{fromLocation}/{toLocation}")
-    public TaxiRoutesResponse findRoute(@PathVariable String fromLocation,
-                                        @PathVariable String toLocation){
-        return service.findRoute(fromLocation,toLocation);
+    @GetMapping("")
+    public TaxiRoutesResponse findRoute(@RequestParam String from,
+                                        @RequestParam String to){
+        return service.findRoute(from,to);
     }
 
 }
