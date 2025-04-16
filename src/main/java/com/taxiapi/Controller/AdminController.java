@@ -3,6 +3,7 @@ package com.taxiapi.Controller;
 import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Model.TaxiSign;
+import com.taxiapi.Responses.EmptyFileResponse;
 import com.taxiapi.Responses.TaxiRankResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Responses.TaxiSignResponse;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -44,6 +46,12 @@ public class AdminController {
         service.saveRoute(route);
     }
 
+
+    @PostMapping("/routes")
+    @ResponseStatus(HttpStatus.CREATED)
+    public EmptyFileResponse saveRoutes(@RequestParam("file")MultipartFile file){
+        return service.saveFromCSVFile(file);
+    }
 
 
 

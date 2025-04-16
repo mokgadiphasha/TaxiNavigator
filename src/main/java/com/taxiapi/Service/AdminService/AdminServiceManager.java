@@ -4,13 +4,16 @@ import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Repository.TaxiRouteRepository;
+import com.taxiapi.Responses.EmptyFileResponse;
 import com.taxiapi.Responses.TaxiRankResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Responses.TaxiSignResponse;
 import com.taxiapi.Service.GenericCrudService;
+import com.taxiapi.Service.Utility.CSVUtilityService;
 import com.taxiapi.Service.Utility.ServiceUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,15 +22,17 @@ import static java.util.Arrays.stream;
 @Service
 public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     private final ServiceUtility util;
+    private final CSVUtilityService csvUtil;
     private final AdminTaxiRankService taxiRankService;
     private final AdminTaxiSignService taxiSignService;
 
 
     @Autowired
-    public AdminServiceManager(TaxiRouteRepository repository, ServiceUtility util,
+    public AdminServiceManager(TaxiRouteRepository repository, ServiceUtility util, CSVUtilityService csvUtil,
                                AdminTaxiRankService taxiRankService, AdminTaxiSignService taxiSignService) {
         super(repository);
         this.util = util;
+        this.csvUtil = csvUtil;
         this.taxiRankService = taxiRankService;
         this.taxiSignService = taxiSignService;
     }
@@ -38,6 +43,17 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
         double total = util.getTotal(routes);
 
         return new TaxiRoutesResponse(routes,total);
+    }
+
+
+    public EmptyFileResponse saveFromCSVFile(MultipartFile file){
+        if (file.isEmpty()){
+            return new EmptyFileResponse("File received but empty." +
+                    " Please provide content.");
+        }
+        List<TaxiRoute> routes = csvUtil.csvToObject(file);
+        createAll(routes);
+        return new EmptyFileResponse("File received.");
     }
 
 

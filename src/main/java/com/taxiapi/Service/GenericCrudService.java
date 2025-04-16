@@ -18,6 +18,11 @@ public class GenericCrudService<T,ID> implements ICreateService<T>, IDeleteServi
     }
 
     @Override
+    public void createAll(List<T> entities) {
+        repository.saveAll(entities);
+    }
+
+    @Override
     public void  deleteById(ID id) {
         repository.deleteById(id);
 

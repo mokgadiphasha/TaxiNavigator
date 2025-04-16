@@ -1,5 +1,6 @@
 package com.taxiapi.Model;
 
+import com.opencsv.bean.CsvBindByName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class TaxiSign {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @CsvBindByName
     @Column(nullable = false)
     private String signDescription;
 }
