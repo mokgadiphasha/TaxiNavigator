@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS "taxi_signs" (
 -- Taxi Ranks Table
 CREATE TABLE IF NOT EXISTS "taxi_ranks" (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    rank_name VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL
 );
 
