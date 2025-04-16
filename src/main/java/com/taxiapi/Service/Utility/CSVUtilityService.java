@@ -4,6 +4,7 @@ package com.taxiapi.Service.Utility;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.taxiapi.Model.TaxiRoute;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,12 +39,12 @@ public class CSVUtilityService {
     }
 
 
-    public InputStreamResource createCsvTemplate(){
+    public ByteArrayResource createCsvTemplate(){
         String templateContent = "fromLocation,toLocation," +
-                "fare,rankName,address,signDescription";
+                "fare,pickUpRankName,pickUpRankAddress,dropOffRankName," +
+                "dropOffRankAddress,signDescription\r\n";
 
-        return new InputStreamResource(
-                new ByteArrayInputStream(templateContent.getBytes()));
+        return new ByteArrayResource(templateContent.getBytes());
 
     }
 

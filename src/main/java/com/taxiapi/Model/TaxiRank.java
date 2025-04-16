@@ -21,9 +21,18 @@ public class TaxiRank {
 
     @CsvBindByName
     @Column(nullable = false)
-    private String rankName;
+    private String pickUpRankName;
 
     @CsvBindByName
     @Column(nullable = false)
-    private String address;
+    private String pickUpRankAddress;
+
+    @CsvBindByName
+    @Column(nullable = false)
+    private String dropOffRankName;
+
+    @CsvBindByName
+    @Column(nullable = false)
+    private String dropOffRankAddress;
+
 }

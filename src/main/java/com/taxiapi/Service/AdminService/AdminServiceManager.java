@@ -12,6 +12,7 @@ import com.taxiapi.Service.GenericCrudService;
 import com.taxiapi.Service.Utility.CSVUtilityService;
 import com.taxiapi.Service.Utility.ServiceUtility;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,7 +59,7 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     }
 
 
-    public InputStreamResource returnCsvTemplate(){
+    public ByteArrayResource returnCsvTemplate(){
         return csvUtil.createCsvTemplate();
     }
 

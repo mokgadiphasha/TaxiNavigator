@@ -9,6 +9,7 @@ import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Responses.TaxiSignResponse;
 import com.taxiapi.Service.AdminService.AdminServiceManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -61,30 +62,23 @@ public class AdminController {
 
     @GetMapping("/download-template")
     public ResponseEntity<Resource> getCsvTemplate(){
-        try{
-            InputStreamResource resource = service.returnCsvTemplate();
+        ByteArrayResource resource = service.returnCsvTemplate();
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION,
-                    "attachment; filename=template.csv");
-            headers.add(HttpHeaders.CONTENT_TYPE,"text/csv");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=template.csv");
+        headers.add(HttpHeaders.CONTENT_TYPE,"text/csv");
 
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(resource.contentLength())
-                    .body(resource);
-        } catch (IOException e) {
-            //Todo use spring to control this error
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null);
-        }
-
-
-    }
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(resource.contentLength())
+                .body(resource);
 
 
 
 
 
-}
+
+
+
+}}
