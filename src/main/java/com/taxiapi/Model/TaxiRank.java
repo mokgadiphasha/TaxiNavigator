@@ -21,7 +21,7 @@ public class TaxiRank {
 
     @CsvBindByName
     @Column(nullable = false)
-    private String name;
+    private String rankName;
 
     @CsvBindByName
     @Column(nullable = false)
