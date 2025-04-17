@@ -4,16 +4,15 @@ import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Repository.TaxiRouteRepository;
-import com.taxiapi.Responses.EmptyFileResponse;
+import com.taxiapi.Responses.FileResponse;
 import com.taxiapi.Responses.TaxiRankResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Responses.TaxiSignResponse;
 import com.taxiapi.Service.GenericCrudService;
 import com.taxiapi.Service.Utility.CSVUtilityService;
-import com.taxiapi.Service.Utility.ServiceUtility;
+import com.taxiapi.Service.Utility.RouteUtilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,14 +22,14 @@ import static java.util.Arrays.stream;
 
 @Service
 public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
-    private final ServiceUtility util;
+    private final RouteUtilityService util;
     private final CSVUtilityService csvUtil;
     private final AdminTaxiRankService taxiRankService;
     private final AdminTaxiSignService taxiSignService;
 
 
     @Autowired
-    public AdminServiceManager(TaxiRouteRepository repository, ServiceUtility util, CSVUtilityService csvUtil,
+    public AdminServiceManager(TaxiRouteRepository repository, RouteUtilityService util, CSVUtilityService csvUtil,
                                AdminTaxiRankService taxiRankService, AdminTaxiSignService taxiSignService) {
         super(repository);
         this.util = util;
@@ -44,18 +43,18 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
         List<TaxiRoute> routes = findAll();
         double total = util.getTotal(routes);
 
-        return new TaxiRoutesResponse(routes,total);
+        return new TaxiRoutesResponse(routes,total,"R");
     }
 
 
-    public EmptyFileResponse saveFromCSVFile(MultipartFile file){
+    public FileResponse saveFromCSVFile(MultipartFile file){
         if (file.isEmpty()){
-            return new EmptyFileResponse("File received but empty." +
+            return new FileResponse("File received but empty." +
                     " Please provide content.");
         }
         List<TaxiRoute> routes = csvUtil.csvToObject(file);
         createAll(routes);
-        return new EmptyFileResponse("File received.");
+        return new FileResponse("File received.");
     }
 
 

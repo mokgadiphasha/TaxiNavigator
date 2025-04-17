@@ -4,7 +4,7 @@ import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Repository.TaxiRouteRepository;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.IFindRouteService;
-import com.taxiapi.Service.Utility.ServiceUtility;
+import com.taxiapi.Service.Utility.RouteUtilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -15,12 +15,12 @@ import java.util.*;
 @Qualifier("algorithmRouteFinder")
 public class BFSAlgorithmRouteFinder implements IFindRouteService {
     TaxiRouteRepository repository;
-    ServiceUtility util;
+    RouteUtilityService util;
 
 
     @Autowired
     public BFSAlgorithmRouteFinder(TaxiRouteRepository repository,
-                                   ServiceUtility util){
+                                   RouteUtilityService util){
         this.repository = repository;
         this.util = util;
     }
@@ -32,7 +32,6 @@ public class BFSAlgorithmRouteFinder implements IFindRouteService {
 
         HashMap<String, List<String>> graph =  util.generateGraph(
                 fromLocation,repository);
-        System.out.println(graph);
 
         LinkedHashSet<String> visited = new LinkedHashSet<>();
             LinkedList<List<String>> queue = new LinkedList<>();
@@ -48,7 +47,7 @@ public class BFSAlgorithmRouteFinder implements IFindRouteService {
                             .mapPathToTaxiRouteResponse(path,repository);
                     double taxi_fare = util.getTotal(route);
 
-                    return new TaxiRoutesResponse(route,taxi_fare);
+                    return new TaxiRoutesResponse(route,taxi_fare,"R");
                 }
 
                 if(!visited.contains(current)){

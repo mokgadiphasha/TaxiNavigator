@@ -4,7 +4,7 @@ import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Repository.TaxiRouteRepository;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.IFindRouteService;
-import com.taxiapi.Service.Utility.ServiceUtility;
+import com.taxiapi.Service.Utility.RouteUtilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import java.util.List;
 public class DatabaseRouteFinder implements IFindRouteService {
 
     @Autowired
-    private ServiceUtility util;
+    private RouteUtilityService util;
 
 
     @Override
@@ -27,6 +27,6 @@ public class DatabaseRouteFinder implements IFindRouteService {
                 .findByFromLocationAndToLocation(fromLocation,toLocation);
         double totalFare = util.getTotal(route);
 
-        return new TaxiRoutesResponse(route,totalFare);
+        return new TaxiRoutesResponse(route,totalFare,"R");
     }
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmptyFileResponse {
+public class FileResponse {
     private String message;
 
 }

@@ -4,12 +4,10 @@ import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Repository.TaxiRouteRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Component
-public class ServiceUtility {
+public class RouteUtilityService {
 
     public double getTotal(List<TaxiRoute> routes){
         return routes.stream()
@@ -21,18 +19,31 @@ public class ServiceUtility {
     public HashMap<String,List<String>> generateGraph(String fromLocation,
                                                       TaxiRouteRepository db){
         HashMap<String,List<String>> graph = new HashMap<>();
+        Queue<String> toVisit = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
 
-        List<TaxiRoute> routes = getDatabaseRoutes(db,fromLocation);
-        List<String> neighbours = mapToGraphNodes(routes);
-        graph.putIfAbsent(fromLocation,neighbours);
+        toVisit.add(fromLocation);
 
+        while(!toVisit.isEmpty()){
+            String currentLocation = toVisit.poll();
 
-        for (int i = 0; i < neighbours.size(); i++){
-            fromLocation = neighbours.get(i);
-            routes = getDatabaseRoutes(db,fromLocation);
-            List<String> newNeighbour = mapToGraphNodes(routes);
-            graph.putIfAbsent(fromLocation,newNeighbour);
-            neighbours.addAll(newNeighbour);
+            if(!visited.contains(currentLocation)){
+
+                visited.add(currentLocation);
+                List<TaxiRoute> routes = getDatabaseRoutes(db,currentLocation);
+                List<String> neighbours = new
+                        ArrayList<>(mapToGraphNodes(routes));
+
+                graph.putIfAbsent(currentLocation,neighbours);
+
+                for (String neighbour: neighbours){
+                    if(!visited.contains(neighbour)){
+                        toVisit.add(neighbour);
+                    }
+                }
+
+            }
+
         }
 
         return graph;
@@ -70,7 +81,4 @@ public class ServiceUtility {
                                              String fromLocation ){
         return db.findByFromLocation(fromLocation);
     }
-
-
-
 }

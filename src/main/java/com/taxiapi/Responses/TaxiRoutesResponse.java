@@ -16,4 +16,5 @@ import java.util.List;
 public class TaxiRoutesResponse {
     private List<TaxiRoute> routes;
     private double totalTaxiFare;
+    private String currency;
 }

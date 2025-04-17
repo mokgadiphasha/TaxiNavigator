@@ -1,16 +1,11 @@
 package com.taxiapi.Controller;
 
-import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
-import com.taxiapi.Model.TaxiSign;
-import com.taxiapi.Responses.EmptyFileResponse;
-import com.taxiapi.Responses.TaxiRankResponse;
+import com.taxiapi.Responses.FileResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
-import com.taxiapi.Responses.TaxiSignResponse;
 import com.taxiapi.Service.AdminService.AdminServiceManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -55,7 +48,7 @@ public class AdminController {
 
 
     @PostMapping("/upload-template")
-    public EmptyFileResponse saveRoutes(@RequestParam("file")MultipartFile file){
+    public FileResponse saveRoutes(@RequestParam("file")MultipartFile file){
         return service.saveFromCSVFile(file);
     }
 
