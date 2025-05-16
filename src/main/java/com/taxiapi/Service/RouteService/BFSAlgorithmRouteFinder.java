@@ -4,7 +4,7 @@ import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Repository.TaxiRouteRepository;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.IFindRouteService;
-import com.taxiapi.Service.Utility.RouteUtilityService;
+import com.taxiapi.Utility.RouteUtilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

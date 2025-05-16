@@ -1,4 +1,4 @@
-package com.taxiapi.Service.Utility;
+package com.taxiapi.Utility;
 
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Repository.TaxiRouteRepository;
