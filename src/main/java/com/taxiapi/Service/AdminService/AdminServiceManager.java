@@ -1,5 +1,6 @@
 package com.taxiapi.Service.AdminService;
 
+import com.taxiapi.DTO.TaxiRouteDTO;
 import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Model.TaxiSign;
@@ -52,8 +53,12 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
             return new FileResponse("File received but empty." +
                     " Please provide content.");
         }
-        List<TaxiRoute> routes = csvUtil.csvToObject(file);
+
+        List<TaxiRouteDTO> routeList = csvUtil.csvToObject(file);
+
+        List<TaxiRoute> routes = csvUtil.mapCsvToTaxiRoute(routeList);
         createAll(routes);
+
         return new FileResponse("File received.");
     }
 

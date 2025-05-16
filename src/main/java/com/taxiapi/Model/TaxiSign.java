@@ -19,7 +19,6 @@ public class TaxiSign {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CsvBindByName
     @Column(nullable = false)
     private String signDescription;
 }

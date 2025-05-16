@@ -19,19 +19,15 @@ public class TaxiRank {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CsvBindByName
     @Column(nullable = false)
     private String pickUpRankName;
 
-    @CsvBindByName
     @Column(nullable = false)
     private String pickUpRankAddress;
 
-    @CsvBindByName
     @Column(nullable = false)
     private String dropOffRankName;
 
-    @CsvBindByName
     @Column(nullable = false)
     private String dropOffRankAddress;
 
