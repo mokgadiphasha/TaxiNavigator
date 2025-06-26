@@ -77,7 +77,8 @@ public class CSVUtilityService {
 
     public ByteArrayResource createCsvTemplate(){
         String templateContent = "startLocation,endLocation," +
-                "routeFare,pickUpLocationName,pickUpLocationAddress,dropOffLocationName," +
+                "routeFare,pickUpLocationName,pickUpLocationAddress" +
+                ",dropOffLocationName," +
                 "dropOffLocationAddress,routeSignDescription\r\n";
 
         return new ByteArrayResource(templateContent.getBytes());

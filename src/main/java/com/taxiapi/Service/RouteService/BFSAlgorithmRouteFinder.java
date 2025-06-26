@@ -5,6 +5,7 @@ import com.taxiapi.Repository.TaxiRouteRepository;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.IFindRouteService;
 import com.taxiapi.Utility.RouteUtilityService;
+import com.taxiapi.Utility.ServiceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -16,13 +17,17 @@ import java.util.*;
 public class BFSAlgorithmRouteFinder implements IFindRouteService {
     TaxiRouteRepository repository;
     RouteUtilityService util;
+    ServiceMapper serviceMapper;
+
 
 
     @Autowired
     public BFSAlgorithmRouteFinder(TaxiRouteRepository repository,
-                                   RouteUtilityService util){
+                                   RouteUtilityService util,
+                                   ServiceMapper serviceMapper){
         this.repository = repository;
         this.util = util;
+        this.serviceMapper = serviceMapper;
     }
 
 
@@ -43,7 +48,7 @@ public class BFSAlgorithmRouteFinder implements IFindRouteService {
                 String current = path.get(path.size()-1);
 
                 if(current.equals(toLocation)){
-                    List<TaxiRoute> route = util
+                    List<TaxiRoute> route = serviceMapper
                             .mapPathToTaxiRouteResponse(path,repository);
                     double taxi_fare = util.getTotal(route);
 
