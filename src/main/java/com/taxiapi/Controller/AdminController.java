@@ -47,13 +47,13 @@ public class AdminController {
     }
 
 
-    @PostMapping("/upload-template")
+    @PostMapping("/template")
     public FileResponse saveRoutes(@RequestParam("file")MultipartFile file){
         return service.saveFromCSVFile(file);
     }
 
 
-    @GetMapping("/download-template")
+    @GetMapping("/template")
     public ResponseEntity<Resource> getCsvTemplate(){
         ByteArrayResource resource = service.returnCsvTemplate();
 
