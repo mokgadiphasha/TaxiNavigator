@@ -1,6 +1,7 @@
 package com.taxiapi.Controller;
 
 import com.taxiapi.Model.TaxiRoute;
+import com.taxiapi.RequestDTO.TaxiRouteRequestDTO;
 import com.taxiapi.Responses.FileResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.AdminService.AdminServiceManager;
@@ -42,7 +43,7 @@ public class AdminController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveRoute(@Validated @RequestBody TaxiRoute route){
+    public void saveRoute(@Validated @RequestBody TaxiRouteRequestDTO route){
         service.saveRoute(route);
     }
 

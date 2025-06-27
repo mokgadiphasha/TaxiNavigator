@@ -1,31 +1,31 @@
-package com.taxiapi.DTO;
+package com.taxiapi.RequestDTO;
 
 import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
-@Getter
+@Component
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaxiRouteDTO {
-    @CsvBindByName
-    private String pickUpLocationName;
-    @CsvBindByName
+public class TaxiRouteRequestDTO {
+
+    private String pickUpLocation;
+
+    private String dropOffLocation;
+
     private String pickUpLocationAddress;
-    @CsvBindByName
-    private String dropOffLocationName;
-    @CsvBindByName
+
     private String dropOffLocationAddress;
-    @CsvBindByName
-    private String startLocation;
-    @CsvBindByName
-    private String endLocation;
-    @CsvBindByName
+
     private Double routeFare;
-    @CsvBindByName
+
     private String routeSignDescription;
+
+
 
 }

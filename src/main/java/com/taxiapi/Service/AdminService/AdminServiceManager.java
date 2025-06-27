@@ -1,10 +1,13 @@
 package com.taxiapi.Service.AdminService;
 
-import com.taxiapi.DTO.TaxiRouteDTO;
+import com.taxiapi.DTO.TaxiRouteCsvDto;
+import com.taxiapi.Mapper.TaxiRouteMapper;
 import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Model.TaxiSign;
+import com.taxiapi.Repository.TaxiRankRepository;
 import com.taxiapi.Repository.TaxiRouteRepository;
+import com.taxiapi.RequestDTO.TaxiRouteRequestDTO;
 import com.taxiapi.Responses.FileResponse;
 import com.taxiapi.Responses.TaxiRankResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
@@ -27,16 +30,20 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     private final CSVUtilityService csvUtil;
     private final AdminTaxiRankService taxiRankService;
     private final AdminTaxiSignService taxiSignService;
+    private final TaxiRankRepository rankRepository;
+    private final TaxiRouteMapper taxiRouteMapper;
 
 
     @Autowired
     public AdminServiceManager(TaxiRouteRepository repository, RouteUtilityService util, CSVUtilityService csvUtil,
-                               AdminTaxiRankService taxiRankService, AdminTaxiSignService taxiSignService) {
+                               AdminTaxiRankService taxiRankService, AdminTaxiSignService taxiSignService, TaxiRankRepository rankRepository, TaxiRouteMapper taxiRouteMapper) {
         super(repository);
         this.util = util;
         this.csvUtil = csvUtil;
         this.taxiRankService = taxiRankService;
         this.taxiSignService = taxiSignService;
+        this.rankRepository = rankRepository;
+        this.taxiRouteMapper = taxiRouteMapper;
     }
 
 
@@ -49,15 +56,15 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
 
 
     public FileResponse saveFromCSVFile(MultipartFile file){
-        if (file.isEmpty()){
-            return new FileResponse("File received but empty." +
-                    " Please provide content.");
-        }
-
-        List<TaxiRouteDTO> routeList = csvUtil.csvToObject(file);
-
-        List<TaxiRoute> routes = csvUtil.mapCsvToTaxiRoute(routeList);
-        createAll(routes);
+//        if (file.isEmpty()){
+//            return new FileResponse("File received but empty." +
+//                    " Please provide content.");
+//        }
+//
+//        List<TaxiRouteCsvDto> routeList = csvUtil.csvToObject(file);
+//
+//        List<TaxiRoute> routes = csvUtil.mapCsvToTaxiRoute(routeList);
+//        createAll(routes);
 
         return new FileResponse("File received.");
     }
@@ -78,8 +85,21 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     }
 
 
-    public void saveRoute(TaxiRoute route){
-        create(route);
+    public void saveRoute(TaxiRouteRequestDTO dto){
+
+        String pickUp = dto.getPickUpLocation();
+        String dropOff = dto.getDropOffLocation();
+
+        if(!util.isFromLocationEqualToLocation(rankRepository,dto)){
+
+            util.checkIfAddressAndLocationInDatabase(rankRepository,dto);
+            TaxiRoute route = taxiRouteMapper.toEntity(dto);
+
+            create(route);
+
+
+        }
+
     }
 
 

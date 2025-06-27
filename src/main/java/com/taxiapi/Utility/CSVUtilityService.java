@@ -3,7 +3,7 @@ package com.taxiapi.Utility;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.taxiapi.DTO.TaxiRouteDTO;
+import com.taxiapi.DTO.TaxiRouteCsvDto;
 import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Model.TaxiSign;
@@ -19,14 +19,14 @@ import java.util.List;
 @Component
 public class CSVUtilityService {
 
-    public List<TaxiRouteDTO> csvToObject(MultipartFile file){
+    public List<TaxiRouteCsvDto> csvToObject(MultipartFile file){
         try{
             InputStreamReader reader =
                     new InputStreamReader(file.getInputStream());
 
-            CsvToBean<TaxiRouteDTO> builder =
-                    new CsvToBeanBuilder<TaxiRouteDTO>(reader)
-                    .withType(TaxiRouteDTO.class)
+            CsvToBean<TaxiRouteCsvDto> builder =
+                    new CsvToBeanBuilder<TaxiRouteCsvDto>(reader)
+                    .withType(TaxiRouteCsvDto.class)
                     .withIgnoreLeadingWhiteSpace(true)
                     .build();
 
@@ -40,39 +40,39 @@ public class CSVUtilityService {
     }
 
 
-    public List<TaxiRoute> mapCsvToTaxiRoute(List<TaxiRouteDTO> routes){
-        List<TaxiRoute> routeList = new ArrayList<>();
-
-        for (TaxiRouteDTO route : routes){
-            TaxiRoute taxiRoute = new TaxiRoute();
-            TaxiRank taxiRank = new TaxiRank();
-            TaxiSign taxiSign = new TaxiSign();
-
-            taxiSign.setSignDescription(route
-                    .getRouteSignDescription());
-
-            taxiRank.setDropOffRankAddress(route
-                    .getDropOffLocationAddress());
-
-            taxiRank.setDropOffRankName(route
-                    .getDropOffLocationName());
-
-            taxiRank.setPickUpRankName(route
-                    .getPickUpLocationName());
-
-            taxiRank.setPickUpRankAddress(route
-                    .getPickUpLocationAddress());
-
-            taxiRoute.setFare(route.getRouteFare());
-            taxiRoute.setToLocation(route.getEndLocation());
-            taxiRoute.setFromLocation(route.getStartLocation());
-            taxiRoute.setTaxiSign(taxiSign);
-            taxiRoute.setTaxiRank(taxiRank);
-
-            routeList.add(taxiRoute);
-        }
-        return routeList;
-    }
+//    public List<TaxiRoute> mapCsvToTaxiRoute(List<TaxiRouteCsvDto> routes){
+//        List<TaxiRoute> routeList = new ArrayList<>();
+//
+//        for (TaxiRouteCsvDto route : routes){
+//            TaxiRoute taxiRoute = new TaxiRoute();
+//            TaxiRank taxiRank = new TaxiRank();
+//            TaxiSign taxiSign = new TaxiSign();
+//
+//            taxiSign.setSignDescription(route
+//                    .getRouteSignDescription());
+//
+//            taxiRank.setDropOffRankAddress(route
+//                    .getDropOffLocationAddress());
+//
+//            taxiRank.setDropOffRankName(route
+//                    .getDropOffLocationName());
+//
+//            taxiRank.setPickUpRankName(route
+//                    .getPickUpLocationName());
+//
+//            taxiRank.setPickUpRankAddress(route
+//                    .getPickUpLocationAddress());
+//
+//            taxiRoute.setFare(route.getRouteFare());
+//            taxiRoute.setToLocation(route.getEndLocation());
+//            taxiRoute.setFromLocation(route.getStartLocation());
+//            taxiRoute.setTaxiSign(taxiSign);
+//            taxiRoute.setTaxiRank(taxiRank);
+//
+//            routeList.add(taxiRoute);
+//        }
+//        return routeList;
+//    }
 
 
     public ByteArrayResource createCsvTemplate(){

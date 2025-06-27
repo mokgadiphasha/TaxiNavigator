@@ -31,10 +31,13 @@ public class TaxiRoute {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "taxi_sign_id", nullable = false)
-    private TaxiRank taxiRank;
-
+    private TaxiSign taxiSign;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "rank_id", nullable = false)
-    private TaxiSign taxiSign;
+    @JoinColumn(name = "from_location_rank_id", nullable = false)
+    private TaxiRank fromLocationTaxiRank;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "to_location_rank_id", nullable = false)
+    private TaxiRank toLocationTaxiRank;
 }

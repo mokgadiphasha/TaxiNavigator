@@ -1,7 +1,10 @@
 package com.taxiapi.Utility;
 
+import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
+import com.taxiapi.Repository.TaxiRankRepository;
 import com.taxiapi.Repository.TaxiRouteRepository;
+import com.taxiapi.RequestDTO.TaxiRouteRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -59,4 +62,44 @@ public class RouteUtilityService {
                                              String fromLocation ){
         return db.findByFromLocation(fromLocation);
     }
+
+
+    public boolean isFromLocationEqualToLocation(TaxiRankRepository
+                                                      repository,
+                                              TaxiRouteRequestDTO dto){
+
+        return dto.getPickUpLocation().equals(dto.getDropOffLocation());
+
+    }
+
+
+    public void checkIfAddressAndLocationInDatabase(
+            TaxiRankRepository repository,
+            TaxiRouteRequestDTO dto){
+
+        String pickUpLocation = dto.getPickUpLocation();
+        String pickUpAddress = dto.getPickUpLocationAddress();
+
+        String dropOffLocation = dto.getDropOffLocation();
+        String dropOffAddress = dto.getDropOffLocationAddress();
+
+        boolean resultA = repository
+                .existsByLocationNameAndLocationAddress(pickUpLocation,
+                pickUpAddress);
+
+        boolean resultB = repository
+                .existsByLocationNameAndLocationAddress(dropOffLocation,
+                        dropOffAddress);
+
+        if(!resultA) repository
+                .save(new TaxiRank(pickUpLocation,pickUpAddress));
+
+        if(!resultB) repository
+                .save(new TaxiRank(dropOffLocation,dropOffAddress));
+
+
+    }
+
+
+
 }

@@ -20,15 +20,15 @@ public class TaxiRank {
     private Long id;
 
     @Column(nullable = false)
-    private String pickUpRankName;
+    private String locationName;
 
     @Column(nullable = false)
-    private String pickUpRankAddress;
+    private String locationAddress;
 
-    @Column(nullable = false)
-    private String dropOffRankName;
+    public TaxiRank(String locationName,String locationAddress){
+        this.locationName = locationName;
+        this.locationAddress = locationAddress;
+    }
 
-    @Column(nullable = false)
-    private String dropOffRankAddress;
 
 }
