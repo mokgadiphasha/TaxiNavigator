@@ -1,6 +1,5 @@
 package com.taxiapi.RequestDTO;
 
-import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaxiRouteRequestDTO {
+public class TaxiRouteDTO {
 
     private String pickUpLocation;
 

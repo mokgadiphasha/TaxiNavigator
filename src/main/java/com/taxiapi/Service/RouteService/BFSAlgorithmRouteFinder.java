@@ -35,37 +35,37 @@ public class BFSAlgorithmRouteFinder implements IFindRouteService {
         public  TaxiRoutesResponse routeFinder(String fromLocation,
                            String toLocation, TaxiRouteRepository db) {
 
-        HashMap<String, List<String>> graph =  util.generateGraph(
-                fromLocation,repository);
+//        HashMap<String, List<String>> graph =  util.generateGraph(
+//                fromLocation,repository);
+//
+//        LinkedHashSet<String> visited = new LinkedHashSet<>();
+//            LinkedList<List<String>> queue = new LinkedList<>();
+//
+//            queue.add(new ArrayList<>(Arrays.asList(fromLocation)));
+//
+//            while (!queue.isEmpty()){
+//                List<String> path = queue.remove();
+//                String current = path.get(path.size()-1);
 
-        LinkedHashSet<String> visited = new LinkedHashSet<>();
-            LinkedList<List<String>> queue = new LinkedList<>();
+//                if(current.equals(toLocation)){
+//                    List<TaxiRoute> route = serviceMapper
+//                            .mapPathToTaxiRouteResponse(path,repository);
+//                    double taxi_fare = util.getTotal(route);
+//
+//                    return new TaxiRoutesResponse(route,taxi_fare,"R");
+//                }
 
-            queue.add(new ArrayList<>(Arrays.asList(fromLocation)));
-
-            while (!queue.isEmpty()){
-                List<String> path = queue.remove();
-                String current = path.get(path.size()-1);
-
-                if(current.equals(toLocation)){
-                    List<TaxiRoute> route = serviceMapper
-                            .mapPathToTaxiRouteResponse(path,repository);
-                    double taxi_fare = util.getTotal(route);
-
-                    return new TaxiRoutesResponse(route,taxi_fare,"R");
-                }
-
-                if(!visited.contains(current)){
-                    visited.add(current);
-
-                    for (String neighbor : graph.get(current) ){
-                        List<String> newPath = new ArrayList<>(path);
-                        newPath.add(neighbor);
-
-                        queue.add(newPath);
-                    }
-                }
-            }
+//                if(!visited.contains(current)){
+//                    visited.add(current);
+//
+//                    for (String neighbor : graph.get(current) ){
+//                        List<String> newPath = new ArrayList<>(path);
+//                        newPath.add(neighbor);
+//
+//                        queue.add(newPath);
+//                    }
+//                }
+//            }
 
         return null;
     }

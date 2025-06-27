@@ -4,7 +4,7 @@ import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Repository.TaxiRankRepository;
 import com.taxiapi.Repository.TaxiRouteRepository;
-import com.taxiapi.RequestDTO.TaxiRouteRequestDTO;
+import com.taxiapi.RequestDTO.TaxiRouteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +15,9 @@ public class RouteUtilityService {
     @Autowired
     ServiceMapper serviceMapper;
 
-    public double getTotal(List<TaxiRoute> routes){
+    public double getTotal(List<TaxiRouteDTO> routes){
         return routes.stream()
-                .mapToDouble(TaxiRoute::getFare)
+                .mapToDouble(TaxiRouteDTO::getRouteFare)
                 .sum();
     }
 
@@ -66,7 +66,7 @@ public class RouteUtilityService {
 
     public boolean isFromLocationEqualToLocation(TaxiRankRepository
                                                       repository,
-                                              TaxiRouteRequestDTO dto){
+                                              TaxiRouteDTO dto){
 
         return dto.getPickUpLocation().equals(dto.getDropOffLocation());
 
@@ -75,7 +75,7 @@ public class RouteUtilityService {
 
     public void checkIfAddressAndLocationInDatabase(
             TaxiRankRepository repository,
-            TaxiRouteRequestDTO dto){
+            TaxiRouteDTO dto){
 
         String pickUpLocation = dto.getPickUpLocation();
         String pickUpAddress = dto.getPickUpLocationAddress();

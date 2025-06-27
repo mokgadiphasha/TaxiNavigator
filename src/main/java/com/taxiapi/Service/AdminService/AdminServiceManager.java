@@ -1,13 +1,13 @@
 package com.taxiapi.Service.AdminService;
 
-import com.taxiapi.DTO.TaxiRouteCsvDto;
-import com.taxiapi.Mapper.TaxiRouteMapper;
+import com.taxiapi.Mapper.TaxiRouteMapperDtoToEntity;
+import com.taxiapi.Mapper.TaxiRouteMapperEntityToDto;
 import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Repository.TaxiRankRepository;
 import com.taxiapi.Repository.TaxiRouteRepository;
-import com.taxiapi.RequestDTO.TaxiRouteRequestDTO;
+import com.taxiapi.RequestDTO.TaxiRouteDTO;
 import com.taxiapi.Responses.FileResponse;
 import com.taxiapi.Responses.TaxiRankResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
@@ -22,8 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static java.util.Arrays.stream;
-
 @Service
 public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     private final RouteUtilityService util;
@@ -31,27 +29,32 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     private final AdminTaxiRankService taxiRankService;
     private final AdminTaxiSignService taxiSignService;
     private final TaxiRankRepository rankRepository;
-    private final TaxiRouteMapper taxiRouteMapper;
+    private final TaxiRouteMapperDtoToEntity taxiRouteMapperDtoToEntity;
+    private final TaxiRouteMapperEntityToDto routeMapperEntityToDto;
 
 
     @Autowired
     public AdminServiceManager(TaxiRouteRepository repository, RouteUtilityService util, CSVUtilityService csvUtil,
-                               AdminTaxiRankService taxiRankService, AdminTaxiSignService taxiSignService, TaxiRankRepository rankRepository, TaxiRouteMapper taxiRouteMapper) {
+                               AdminTaxiRankService taxiRankService, AdminTaxiSignService taxiSignService, TaxiRankRepository rankRepository, TaxiRouteMapperDtoToEntity taxiRouteMapperDtoToEntity, TaxiRouteMapperEntityToDto routeMapperEntityToDto) {
         super(repository);
         this.util = util;
         this.csvUtil = csvUtil;
         this.taxiRankService = taxiRankService;
         this.taxiSignService = taxiSignService;
         this.rankRepository = rankRepository;
-        this.taxiRouteMapper = taxiRouteMapper;
+        this.taxiRouteMapperDtoToEntity = taxiRouteMapperDtoToEntity;
+        this.routeMapperEntityToDto = routeMapperEntityToDto;
     }
 
 
     public TaxiRoutesResponse findAllRoutes(){
         List<TaxiRoute> routes = findAll();
-        double total = util.getTotal(routes);
 
-        return new TaxiRoutesResponse(routes,total,"R");
+        List<TaxiRouteDTO> dtoRoutes =
+                routeMapperEntityToDto.toDto(routes);
+        double total = util.getTotal(dtoRoutes);
+
+        return new TaxiRoutesResponse(dtoRoutes,total,"R");
     }
 
 
@@ -85,15 +88,12 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     }
 
 
-    public void saveRoute(TaxiRouteRequestDTO dto){
-
-        String pickUp = dto.getPickUpLocation();
-        String dropOff = dto.getDropOffLocation();
+    public void saveRoute(TaxiRouteDTO dto){
 
         if(!util.isFromLocationEqualToLocation(rankRepository,dto)){
 
             util.checkIfAddressAndLocationInDatabase(rankRepository,dto);
-            TaxiRoute route = taxiRouteMapper.toEntity(dto);
+            TaxiRoute route = taxiRouteMapperDtoToEntity.toEntity(dto);
 
             create(route);
 

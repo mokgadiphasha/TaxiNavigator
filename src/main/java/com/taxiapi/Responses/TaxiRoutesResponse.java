@@ -1,6 +1,7 @@
 package com.taxiapi.Responses;
 
 import com.taxiapi.Model.TaxiRoute;
+import com.taxiapi.RequestDTO.TaxiRouteDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 
 public class TaxiRoutesResponse {
-    private List<TaxiRoute> routes;
+    private List<TaxiRouteDTO> routes;
     private double totalTaxiFare;
     private String currency;
 }
