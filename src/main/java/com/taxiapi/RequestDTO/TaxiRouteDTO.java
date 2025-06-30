@@ -25,6 +25,4 @@ public class TaxiRouteDTO {
 
     private String routeSignDescription;
 
-
-
 }

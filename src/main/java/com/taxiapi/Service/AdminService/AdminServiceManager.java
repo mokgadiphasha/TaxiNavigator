@@ -1,5 +1,6 @@
 package com.taxiapi.Service.AdminService;
 
+import com.taxiapi.DTO.TaxiRouteCsvDto;
 import com.taxiapi.Mapper.TaxiRouteMapperDtoToEntity;
 import com.taxiapi.Mapper.TaxiRouteMapperEntityToDto;
 import com.taxiapi.Model.TaxiRank;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+//TODO: Please find a way to deal with all these duplicates that come from cascade.persist
 
 @Service
 public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
@@ -62,15 +64,19 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
 
 
     public FileResponse saveFromCSVFile(MultipartFile file){
-//        if (file.isEmpty()){
-//            return new FileResponse("File received but empty." +
-//                    " Please provide content.");
-//        }
-//
-//        List<TaxiRouteCsvDto> routeList = csvUtil.csvToObject(file);
-//
-//        List<TaxiRoute> routes = csvUtil.mapCsvToTaxiRoute(routeList);
-//        createAll(routes);
+        if (file.isEmpty()){
+            return new FileResponse("File received but empty." +
+                    " Please provide content.");
+        }
+
+//TODO: Also check if its possible to check for emptiness apart from first line.
+
+        List<TaxiRouteCsvDto> routeList = csvUtil.csvToObject(file);
+
+        List<TaxiRoute> routes = csvUtil
+                .mapCsvToTaxiRoute(routeList);
+
+        createAll(routes);
 
         return new FileResponse("File received.");
     }
@@ -121,7 +127,11 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
 
     public void saveRoute(TaxiRouteDTO dto){
 
-        if(!util.isFromLocationEqualToLocation(rankRepository,dto)){
+        String pickUp = dto.getPickUpLocation();
+        String dropOff = dto.getDropOffLocation();
+
+        if(util.isNotFromLocationEqualToLocation(
+                pickUp, dropOff)){
 
             util.checkIfAddressAndLocationInDatabase(rankRepository,dto);
             TaxiRoute route = taxiRouteMapperDtoToEntity.toEntity(dto);
@@ -132,7 +142,6 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
         }
         //TODO: figure out the duplication issue with persistence
         // and what happens if the TO and FROM are the same locations
-
     }
 
 

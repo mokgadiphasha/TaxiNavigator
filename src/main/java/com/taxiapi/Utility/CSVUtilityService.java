@@ -4,9 +4,10 @@ package com.taxiapi.Utility;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.taxiapi.DTO.TaxiRouteCsvDto;
-import com.taxiapi.Model.TaxiRank;
+import com.taxiapi.Mapper.TaxiRouteMapperDtoToEntity;
 import com.taxiapi.Model.TaxiRoute;
-import com.taxiapi.Model.TaxiSign;
+import com.taxiapi.Repository.TaxiRankRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,11 @@ import java.util.List;
 
 @Component
 public class CSVUtilityService {
+
+    @Autowired
+    RouteUtilityService util;
+    @Autowired
+    TaxiRouteMapperDtoToEntity mapperDtoToEntity;
 
     public List<TaxiRouteCsvDto> csvToObject(MultipartFile file){
         try{
@@ -40,46 +46,32 @@ public class CSVUtilityService {
     }
 
 
-//    public List<TaxiRoute> mapCsvToTaxiRoute(List<TaxiRouteCsvDto> routes){
-//        List<TaxiRoute> routeList = new ArrayList<>();
-//
-//        for (TaxiRouteCsvDto route : routes){
-//            TaxiRoute taxiRoute = new TaxiRoute();
-//            TaxiRank taxiRank = new TaxiRank();
-//            TaxiSign taxiSign = new TaxiSign();
-//
-//            taxiSign.setSignDescription(route
-//                    .getRouteSignDescription());
-//
-//            taxiRank.setDropOffRankAddress(route
-//                    .getDropOffLocationAddress());
-//
-//            taxiRank.setDropOffRankName(route
-//                    .getDropOffLocationName());
-//
-//            taxiRank.setPickUpRankName(route
-//                    .getPickUpLocationName());
-//
-//            taxiRank.setPickUpRankAddress(route
-//                    .getPickUpLocationAddress());
-//
-//            taxiRoute.setFare(route.getRouteFare());
-//            taxiRoute.setToLocation(route.getEndLocation());
-//            taxiRoute.setFromLocation(route.getStartLocation());
-//            taxiRoute.setTaxiSign(taxiSign);
-//            taxiRoute.setTaxiRank(taxiRank);
-//
-//            routeList.add(taxiRoute);
-//        }
-//        return routeList;
-//    }
+    public List<TaxiRoute> mapCsvToTaxiRoute(List<TaxiRouteCsvDto> routes){
+        List<TaxiRoute> routeList = new ArrayList<>();
+
+        for (TaxiRouteCsvDto dto: routes){
+
+            String pickUp = dto.getPickUpLocation();
+            String dropOff = dto.getDropOffLocation();
+
+            if(util.isNotFromLocationEqualToLocation(pickUp, dropOff)){
+                TaxiRoute entity = mapperDtoToEntity.toEntity(dto);
+                routeList.add(entity);
+            }
+        }
+
+        return routeList;
+        //TODO: Find a way to save each item by ensuring
+        // no duplicates exist in the process cascade.perisist issue.
+    }
 
 
     public ByteArrayResource createCsvTemplate(){
-        String templateContent = "startLocation,endLocation," +
-                "routeFare,pickUpLocationName,pickUpLocationAddress" +
-                ",dropOffLocationName," +
-                "dropOffLocationAddress,routeSignDescription\r\n";
+        String templateContent =
+                "pickUpLocation,pickUpLocationAddress" +
+                ",dropOffLocation," +
+                "dropOffLocationAddress,routeFare," +
+                        "routeSignDescription\r\n";
 
         return new ByteArrayResource(templateContent.getBytes());
 

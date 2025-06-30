@@ -27,7 +27,7 @@ public class AdminController {
         return service.findAllRoutes();
     }
 
-
+//done
     @PutMapping("/{id}")
     public void updateRoute(@PathVariable Long id,
                             @Validated @RequestBody TaxiRouteDTO route){
@@ -48,13 +48,13 @@ public class AdminController {
         service.saveRoute(route);
     }
 
-
+//done
     @PostMapping("/template")
     public FileResponse saveRoutes(@RequestParam("file")MultipartFile file){
         return service.saveFromCSVFile(file);
     }
 
-
+//done
     @GetMapping("/template")
     public ResponseEntity<Resource> getCsvTemplate(){
         ByteArrayResource resource = service.returnCsvTemplate();
@@ -68,12 +68,5 @@ public class AdminController {
                 .headers(headers)
                 .contentLength(resource.contentLength())
                 .body(resource);
-
-
-
-
-
-
-
 
 }}

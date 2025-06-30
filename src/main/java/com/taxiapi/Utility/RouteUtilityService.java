@@ -66,11 +66,10 @@ public class RouteUtilityService {
     }
 
 
-    public boolean isFromLocationEqualToLocation(TaxiRankRepository
-                                                      repository,
-                                              TaxiRouteDTO dto){
+    public boolean isNotFromLocationEqualToLocation(
+                                              String pickUp, String dropOff){
 
-        return dto.getPickUpLocation().equals(dto.getDropOffLocation());
+        return !pickUp.equalsIgnoreCase(dropOff);
 
     }
 
