@@ -21,16 +21,17 @@ public class AdminController {
     @Autowired
     private AdminServiceManager service;
 
-
+//done
     @GetMapping("")
     public TaxiRoutesResponse findAllRoutes(){
         return service.findAllRoutes();
     }
 
 
-    @PutMapping("")
-    public void updateRoute(@Validated @RequestBody TaxiRoute route){
-        service.updateRoute(route);
+    @PutMapping("/{id}")
+    public void updateRoute(@PathVariable Long id,
+                            @Validated @RequestBody TaxiRouteDTO route){
+        service.updateRoute(id, route);
     }
 
 

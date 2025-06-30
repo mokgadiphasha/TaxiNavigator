@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "Spring")
 public interface TaxiRouteMapperEntityToDto {
 
+    @Mapping(target = "id", source = "id")
     @Mapping(target = "pickUpLocation", source = "fromLocation")
     @Mapping(target = "dropOffLocation", source = "toLocation")
     @Mapping(target = "routeFare", source = "fare")

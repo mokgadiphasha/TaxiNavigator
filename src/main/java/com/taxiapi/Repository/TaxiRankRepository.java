@@ -7,4 +7,6 @@ public interface TaxiRankRepository extends JpaRepository<TaxiRank,Long> {
 
     boolean existsByLocationNameAndLocationAddress(String locationName
             ,String locationAddress);
+
+    TaxiRank findByLocationNameAndLocationAddress(String locationName, String locationAddress);
 }

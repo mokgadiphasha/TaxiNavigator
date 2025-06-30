@@ -2,8 +2,10 @@ package com.taxiapi.Utility;
 
 import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
+import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Repository.TaxiRankRepository;
 import com.taxiapi.Repository.TaxiRouteRepository;
+import com.taxiapi.Repository.TaxiSignRepository;
 import com.taxiapi.RequestDTO.TaxiRouteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -77,27 +79,50 @@ public class RouteUtilityService {
             TaxiRankRepository repository,
             TaxiRouteDTO dto){
 
-        String pickUpLocation = dto.getPickUpLocation();
-        String pickUpAddress = dto.getPickUpLocationAddress();
+//        String pickUpLocation = dto.getPickUpLocation();
+//        String pickUpAddress = dto.getPickUpLocationAddress();
+//
+//        String dropOffLocation = dto.getDropOffLocation();
+//        String dropOffAddress = dto.getDropOffLocationAddress();
+//
+//        boolean resultA = repository
+//                .existsByLocationNameAndLocationAddress(pickUpLocation,
+//                pickUpAddress);
+//
+//        boolean resultB = repository
+//                .existsByLocationNameAndLocationAddress(dropOffLocation,
+//                        dropOffAddress);
+//
+//        if(!resultA) {
+//            System.out.println("Pickup location does not exist but has been added.");
+//            repository
+//                .save(new TaxiRank(pickUpLocation,pickUpAddress));}
+//        if(!resultB) {
+//            System.out.println("Drop off location does not exist but has been added.");
+//
+//            repository
+//                .save(new TaxiRank(dropOffLocation,dropOffAddress));}
 
-        String dropOffLocation = dto.getDropOffLocation();
-        String dropOffAddress = dto.getDropOffLocationAddress();
 
-        boolean resultA = repository
-                .existsByLocationNameAndLocationAddress(pickUpLocation,
-                pickUpAddress);
-
-        boolean resultB = repository
-                .existsByLocationNameAndLocationAddress(dropOffLocation,
-                        dropOffAddress);
-
-        if(!resultA) repository
-                .save(new TaxiRank(pickUpLocation,pickUpAddress));
-
-        if(!resultB) repository
-                .save(new TaxiRank(dropOffLocation,dropOffAddress));
+    }
 
 
+    public Long findTaxiRankId(TaxiRankRepository repository,
+                               String locationName, String address){
+        TaxiRank rank =  repository
+                .findByLocationNameAndLocationAddress(
+                        locationName,address);
+        return rank.getId();
+
+    }
+
+
+    public Long findTaxiSignId(TaxiSignRepository repository,
+                               String signDescription){
+        TaxiSign taxiSign = repository
+                .findBySignDescription(signDescription);
+
+        return taxiSign.getId();
     }
 
 

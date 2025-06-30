@@ -1,9 +1,6 @@
 package com.taxiapi.RequestDTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,7 +8,10 @@ import org.springframework.stereotype.Component;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class TaxiRouteDTO {
+
+    private Long id;
 
     private String pickUpLocation;
 

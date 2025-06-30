@@ -3,10 +3,7 @@ package com.taxiapi.Model;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvRecurse;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "taxi_routes")
@@ -14,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@ToString
 public class TaxiRoute {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

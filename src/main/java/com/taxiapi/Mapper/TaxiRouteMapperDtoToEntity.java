@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "Spring")
 public interface TaxiRouteMapperDtoToEntity {
 
+    @Mapping(target = "id", source = "id")
     @Mapping(target = "fromLocation", source = "pickUpLocation")
     @Mapping(target = "toLocation", source = "dropOffLocation")
     @Mapping(target = "fare", source = "routeFare")

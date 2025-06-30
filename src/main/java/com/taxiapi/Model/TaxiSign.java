@@ -2,10 +2,7 @@ package com.taxiapi.Model;
 
 import com.opencsv.bean.CsvBindByName;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "taxi_signs")
@@ -13,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
+@ToString
 public class TaxiSign {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

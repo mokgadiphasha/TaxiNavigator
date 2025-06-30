@@ -7,6 +7,7 @@ import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Repository.TaxiRankRepository;
 import com.taxiapi.Repository.TaxiRouteRepository;
+import com.taxiapi.Repository.TaxiSignRepository;
 import com.taxiapi.RequestDTO.TaxiRouteDTO;
 import com.taxiapi.Responses.FileResponse;
 import com.taxiapi.Responses.TaxiRankResponse;
@@ -29,19 +30,21 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     private final AdminTaxiRankService taxiRankService;
     private final AdminTaxiSignService taxiSignService;
     private final TaxiRankRepository rankRepository;
+    private final TaxiSignRepository signRepository;
     private final TaxiRouteMapperDtoToEntity taxiRouteMapperDtoToEntity;
     private final TaxiRouteMapperEntityToDto routeMapperEntityToDto;
 
 
     @Autowired
     public AdminServiceManager(TaxiRouteRepository repository, RouteUtilityService util, CSVUtilityService csvUtil,
-                               AdminTaxiRankService taxiRankService, AdminTaxiSignService taxiSignService, TaxiRankRepository rankRepository, TaxiRouteMapperDtoToEntity taxiRouteMapperDtoToEntity, TaxiRouteMapperEntityToDto routeMapperEntityToDto) {
+                               AdminTaxiRankService taxiRankService, AdminTaxiSignService taxiSignService, TaxiRankRepository rankRepository, TaxiSignRepository signRepository, TaxiRouteMapperDtoToEntity taxiRouteMapperDtoToEntity, TaxiRouteMapperEntityToDto routeMapperEntityToDto) {
         super(repository);
         this.util = util;
         this.csvUtil = csvUtil;
         this.taxiRankService = taxiRankService;
         this.taxiSignService = taxiSignService;
         this.rankRepository = rankRepository;
+        this.signRepository = signRepository;
         this.taxiRouteMapperDtoToEntity = taxiRouteMapperDtoToEntity;
         this.routeMapperEntityToDto = routeMapperEntityToDto;
     }
@@ -78,8 +81,36 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     }
 
 
-    public void updateRoute(TaxiRoute route){
-        update(route);
+    public void updateRoute(Long id , TaxiRouteDTO dto){
+
+        String pickUpLocation = dto.getPickUpLocation();
+        String pickUpAddress = dto.getPickUpLocationAddress();
+
+        String dropOffLocation = dto.getDropOffLocation();
+        String dropOffAddress = dto.getDropOffLocationAddress();
+
+        Long pickUpRankId = util
+                .findTaxiRankId(rankRepository
+                        ,pickUpLocation,pickUpAddress);
+
+        Long dropOffRankId = util.findTaxiRankId(rankRepository,
+                dropOffLocation,dropOffAddress);
+
+        Long taxiSignId = util.findTaxiSignId(signRepository,
+                dto.getRouteSignDescription());
+
+        TaxiRoute entity = taxiRouteMapperDtoToEntity.toEntity(dto);
+
+
+        if(existsById(id)){
+            entity.setId(id);
+            entity.getFromLocationTaxiRank().setId(pickUpRankId);
+            entity.getToLocationTaxiRank().setId(dropOffRankId);
+            entity.getTaxiSign().setId(taxiSignId);
+            update(entity);
+        }
+        //TODO: what happens if the id does not exist
+
     }
 
 
@@ -99,6 +130,8 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
 
 
         }
+        //TODO: figure out the duplication issue with persistence
+        // and what happens if the TO and FROM are the same locations
 
     }
 
