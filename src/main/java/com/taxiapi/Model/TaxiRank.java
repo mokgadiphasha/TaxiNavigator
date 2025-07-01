@@ -23,10 +23,6 @@ public class TaxiRank {
     @Column(nullable = false)
     private String locationAddress;
 
-    public TaxiRank(String locationName,String locationAddress){
-        this.locationName = locationName;
-        this.locationAddress = locationAddress;
-    }
 
 
 }

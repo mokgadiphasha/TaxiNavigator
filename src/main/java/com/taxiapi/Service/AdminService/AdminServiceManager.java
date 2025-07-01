@@ -9,6 +9,7 @@ import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Repository.TaxiRankRepository;
 import com.taxiapi.Repository.TaxiRouteRepository;
 import com.taxiapi.Repository.TaxiSignRepository;
+import com.taxiapi.RequestDTO.TaxiRankDTO;
 import com.taxiapi.RequestDTO.TaxiRouteDTO;
 import com.taxiapi.Responses.FileResponse;
 import com.taxiapi.Responses.TaxiRankResponse;
@@ -160,8 +161,8 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     }
 
 
-    public void saveTaxiRank(TaxiRank entity){
-        taxiRankService.saveTaxiRank(entity);
+    public void saveTaxiRank(TaxiRankDTO dto){
+        taxiRankService.saveTaxiRank(dto);
     }
 
     public TaxiSignResponse findAllTaxiSigns(){
@@ -169,8 +170,8 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     }
 
 
-    public void updateTaxiRank(TaxiRank entity){
-        taxiRankService.updateTaxiRank(entity);
+    public void updateTaxiRank(Long id,TaxiRankDTO dto){
+        taxiRankService.updateTaxiRank(id,dto);
     }
 
 

@@ -14,7 +14,7 @@ public class AdminTaxiSignController {
     @Autowired
     private AdminServiceManager service;
 
-
+//not necessary
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public void saveTaxiSign(@Validated @RequestBody TaxiSign taxiSign){
@@ -27,7 +27,7 @@ public class AdminTaxiSignController {
         service.updateTaxiSign(taxiSign);
     }
 
-
+//not necessary
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTaxiSign(@PathVariable Long id){

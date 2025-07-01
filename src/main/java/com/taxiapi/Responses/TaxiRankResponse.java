@@ -2,6 +2,7 @@ package com.taxiapi.Responses;
 
 import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiSign;
+import com.taxiapi.RequestDTO.TaxiRankDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +16,5 @@ import java.util.List;
 @AllArgsConstructor
 
 public class TaxiRankResponse {
-    private List<TaxiRank> ranks;
+    private List<TaxiRankDTO> ranks;
 }
