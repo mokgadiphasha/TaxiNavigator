@@ -21,7 +21,7 @@ public class AdminTaxiSignController {
         service.saveTaxiSign(taxiSign);
     }
 
-
+//still have to think about it
     @PutMapping("")
     public void updateTaxiSign(@Validated @RequestBody TaxiSign taxiSign){
         service.updateTaxiSign(taxiSign);
@@ -34,7 +34,7 @@ public class AdminTaxiSignController {
         service.deleteTaxiSign(id);
     }
 
-
+//done
     @GetMapping("")
     public TaxiSignResponse findAllTaxiSigns(){
         return service.findAllTaxiSigns();
