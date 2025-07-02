@@ -3,7 +3,6 @@ package com.taxiapi.RequestDTO;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
-@Component
 @Setter
 @Getter
 @NoArgsConstructor
