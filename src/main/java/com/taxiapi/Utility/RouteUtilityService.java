@@ -66,7 +66,7 @@ public class RouteUtilityService {
     }
 
 
-    public boolean isNotFromLocationEqualToLocation(
+    public boolean isFromLocationAndToLocationNotEqual(
                                               String pickUp, String dropOff){
 
         return !pickUp.equalsIgnoreCase(dropOff);
@@ -74,34 +74,62 @@ public class RouteUtilityService {
     }
 
 
-    public void checkIfAddressAndLocationInDatabase(
-            TaxiRankRepository repository,
-            TaxiRouteDTO dto){
+    public Map<String, Long> validateIfEntitiesInDatabase(
+            TaxiRankRepository rankRepository,
+            TaxiSignRepository  signRepository,
+            TaxiRoute route){
 
-//        String pickUpLocation = dto.getPickUpLocation();
-//        String pickUpAddress = dto.getPickUpLocationAddress();
-//
-//        String dropOffLocation = dto.getDropOffLocation();
-//        String dropOffAddress = dto.getDropOffLocationAddress();
-//
-//        boolean resultA = repository
-//                .existsByLocationNameAndLocationAddress(pickUpLocation,
-//                pickUpAddress);
-//
-//        boolean resultB = repository
-//                .existsByLocationNameAndLocationAddress(dropOffLocation,
-//                        dropOffAddress);
-//
-//        if(!resultA) {
-//            System.out.println("Pickup location does not exist but has been added.");
-//            repository
-//                .save(new TaxiRank(pickUpLocation,pickUpAddress));}
-//        if(!resultB) {
-//            System.out.println("Drop off location does not exist but has been added.");
-//
-//            repository
-//                .save(new TaxiRank(dropOffLocation,dropOffAddress));}
+        Map<String,Long> result = new HashMap<>();
 
+        String pickUpLocation = route.getFromLocation();
+        String pickUpAddress = route.getFromLocationTaxiRank()
+                .getLocationAddress();
+
+        String dropOffLocation = route.getToLocation();
+        String dropOffAddress = route.getToLocationTaxiRank()
+                .getLocationAddress();
+
+        String signDescription = route.getTaxiSign()
+                .getSignDescription();
+
+        boolean resultA = rankRepository
+                .existsByLocationNameAndLocationAddress(pickUpLocation,
+                pickUpAddress);
+
+        boolean resultB = rankRepository
+                .existsByLocationNameAndLocationAddress(dropOffLocation,
+                        dropOffAddress);
+
+        boolean resultC = signRepository
+                .existsBySignDescription(signDescription);
+
+        if(!resultA)
+            rankRepository
+                .save(new TaxiRank(pickUpLocation,pickUpAddress));
+
+        if(!resultB)
+            rankRepository
+                .save(new TaxiRank(dropOffLocation,dropOffAddress));
+
+        if(!resultC) signRepository
+                .save(new TaxiSign(signDescription));
+
+        result.put("taxiSignId",signRepository
+                .findBySignDescription(
+                        signDescription)
+                .getId());
+
+        result.put("fromTaxiRankId", rankRepository
+                .findByLocationNameAndLocationAddress(
+                        pickUpLocation,pickUpAddress)
+                .getId());
+
+        result.put("toTaxiRankId", rankRepository
+                .findByLocationNameAndLocationAddress(
+                        dropOffLocation,dropOffAddress)
+                .getId());
+
+        return result;
 
     }
 
@@ -123,7 +151,6 @@ public class RouteUtilityService {
 
         return taxiSign.getId();
     }
-
 
 
 }

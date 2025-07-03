@@ -1,9 +1,10 @@
 package com.taxiapi.Service.AdminService;
 
 import com.taxiapi.DTO.TaxiRouteCsvDto;
+import com.taxiapi.Exception.DuplicateResourceException;
+import com.taxiapi.Exception.ResourceNotFoundException;
 import com.taxiapi.Mapper.TaxiRouteMapperDtoToEntity;
 import com.taxiapi.Mapper.TaxiRouteMapperEntityToDto;
-import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Repository.TaxiRankRepository;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 //TODO: Please find a way to deal with all these duplicates that come from cascade.persist
 
 @Service
@@ -96,25 +98,37 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
         String dropOffLocation = dto.getDropOffLocation();
         String dropOffAddress = dto.getDropOffLocationAddress();
 
-        Long pickUpRankId = util
-                .findTaxiRankId(rankRepository
-                        ,pickUpLocation,pickUpAddress);
-
-        Long dropOffRankId = util.findTaxiRankId(rankRepository,
-                dropOffLocation,dropOffAddress);
-
-        Long taxiSignId = util.findTaxiSignId(signRepository,
-                dto.getRouteSignDescription());
-
-        TaxiRoute entity = taxiRouteMapperDtoToEntity.toEntity(dto);
-
 
         if(existsById(id)){
+            Long pickUpRankId = util
+                    .findTaxiRankId(rankRepository
+                            ,pickUpLocation,pickUpAddress);
+
+            Long dropOffRankId = util
+                    .findTaxiRankId(rankRepository,
+                    dropOffLocation,dropOffAddress);
+
+            Long taxiSignId = util
+                    .findTaxiSignId(signRepository,
+                    dto.getRouteSignDescription());
+
+            TaxiRoute entity = taxiRouteMapperDtoToEntity
+                    .toEntity(dto);
+
             entity.setId(id);
-            entity.getFromLocationTaxiRank().setId(pickUpRankId);
-            entity.getToLocationTaxiRank().setId(dropOffRankId);
-            entity.getTaxiSign().setId(taxiSignId);
+            entity.getFromLocationTaxiRank()
+                    .setId(pickUpRankId);
+
+            entity.getToLocationTaxiRank()
+                    .setId(dropOffRankId);
+
+            entity.getTaxiSign()
+                    .setId(taxiSignId);
+
             update(entity);
+        } else {
+            throw new ResourceNotFoundException("Resource with" +
+                    " specified id not found.");
         }
         //TODO: what happens if the id does not exist
 
@@ -131,15 +145,32 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
         String pickUp = dto.getPickUpLocation();
         String dropOff = dto.getDropOffLocation();
 
-        if(util.isNotFromLocationEqualToLocation(
+        if(util.isFromLocationAndToLocationNotEqual(
                 pickUp, dropOff)){
 
-            util.checkIfAddressAndLocationInDatabase(rankRepository,dto);
-            TaxiRoute route = taxiRouteMapperDtoToEntity.toEntity(dto);
+            TaxiRoute route = taxiRouteMapperDtoToEntity
+                    .toEntity(dto);
+
+            Map<String,Long> result = util
+                    .validateIfEntitiesInDatabase(rankRepository,
+                    signRepository,route);
+
+            route.getFromLocationTaxiRank()
+                    .setId(result
+                            .get("fromTaxiRankId"));
+
+            route.getToLocationTaxiRank()
+                    .setId(result
+                            .get("toTaxiRankId"));
+
+            route.getTaxiSign()
+                    .setId(result
+                            .get("taxiSignId"));
 
             create(route);
-
-
+        } else {
+            throw new DuplicateResourceException("Pick up and Drop off location " +
+                    "cannot refer to the same place.");
         }
         //TODO: figure out the duplication issue with persistence
         // and what happens if the TO and FROM are the same locations

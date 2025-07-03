@@ -6,7 +6,6 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import com.taxiapi.DTO.TaxiRouteCsvDto;
 import com.taxiapi.Mapper.TaxiRouteMapperDtoToEntity;
 import com.taxiapi.Model.TaxiRoute;
-import com.taxiapi.Repository.TaxiRankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Component;
@@ -54,7 +53,7 @@ public class CSVUtilityService {
             String pickUp = dto.getPickUpLocation();
             String dropOff = dto.getDropOffLocation();
 
-            if(util.isNotFromLocationEqualToLocation(pickUp, dropOff)){
+            if(util.isFromLocationAndToLocationNotEqual(pickUp, dropOff)){
                 TaxiRoute entity = mapperDtoToEntity.toEntity(dto);
                 routeList.add(entity);
             }

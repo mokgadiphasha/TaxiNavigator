@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "taxi_ranks")
+@Table(name = "taxi_ranks",
+uniqueConstraints =
+@UniqueConstraint(columnNames = {"locationName",
+        "locationAddress"}))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,6 +26,10 @@ public class TaxiRank {
     @Column(nullable = false)
     private String locationAddress;
 
+    public TaxiRank(String locationName, String locationAddress){
+        this.locationName = locationName;
+        this.locationAddress = locationAddress;
+    }
 
 
 }
