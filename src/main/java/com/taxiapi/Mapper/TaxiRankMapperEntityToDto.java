@@ -1,7 +1,7 @@
 package com.taxiapi.Mapper;
 
 import com.taxiapi.Model.TaxiRank;
-import com.taxiapi.RequestDTO.TaxiRankDTO;
+import com.taxiapi.DTO.TaxiRankDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class ServiceMapper {
+public class ServiceMapperUtility {
 
     public List<TaxiRoute> mapPathToTaxiRouteResponse(List<String> path,
                                                       TaxiRouteRepository db){

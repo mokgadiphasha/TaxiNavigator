@@ -1,16 +1,13 @@
 package com.taxiapi.Mapper;
 
-import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.DTO.TaxiSignDTO;
+import com.taxiapi.Model.TaxiSign;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.List;
-
 @Mapper(componentModel = "Spring")
-public interface TaxiSignMapperEntityToDto {
+public interface TaxiSignMapperDtoToEntity {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "signDescription", source = "signDescription")
-    TaxiSignDTO toDto(TaxiSign entity);
-    List<TaxiSignDTO> toDto(List<TaxiSign> entities);
+    TaxiSign toEntity(TaxiSignDTO dto);
 }

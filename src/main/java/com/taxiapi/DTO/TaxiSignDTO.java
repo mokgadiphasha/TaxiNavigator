@@ -1,5 +1,6 @@
-package com.taxiapi.RequestDTO;
+package com.taxiapi.DTO;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Setter
@@ -9,5 +10,7 @@ import lombok.*;
 @ToString
 public class TaxiSignDTO {
     private Long id;
+
+    @NotBlank(message = "Sign description is required.")
     private String signDescription;
 }

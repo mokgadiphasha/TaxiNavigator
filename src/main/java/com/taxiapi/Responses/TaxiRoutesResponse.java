@@ -1,7 +1,6 @@
 package com.taxiapi.Responses;
 
-import com.taxiapi.Model.TaxiRoute;
-import com.taxiapi.RequestDTO.TaxiRouteDTO;
+import com.taxiapi.DTO.TaxiRouteDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

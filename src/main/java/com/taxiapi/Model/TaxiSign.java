@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "taxi_signs")
+@Table(name = "taxi_signs",
+uniqueConstraints =
+@UniqueConstraint(columnNames =
+        {"signDescription"}))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,4 +21,8 @@ public class TaxiSign {
 
     @Column(nullable = false)
     private String signDescription;
+
+    public TaxiSign(String signDescription){
+        this.signDescription = signDescription;
+    }
 }

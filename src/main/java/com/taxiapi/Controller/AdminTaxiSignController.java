@@ -1,5 +1,6 @@
 package com.taxiapi.Controller;
 
+import com.taxiapi.DTO.TaxiSignDTO;
 import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Responses.TaxiSignResponse;
 import com.taxiapi.Service.AdminService.AdminServiceManager;
@@ -14,27 +15,13 @@ public class AdminTaxiSignController {
     @Autowired
     private AdminServiceManager service;
 
-//not necessary
-    @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void saveTaxiSign(@Validated @RequestBody TaxiSign taxiSign){
-        service.saveTaxiSign(taxiSign);
+
+    @PutMapping("/{id}")
+    public void updateTaxiSign(@RequestParam Long id,@Validated @RequestBody TaxiSignDTO taxiSign){
+        service.updateTaxiSign(id,taxiSign);
     }
 
-//still have to think about it
-    @PutMapping("")
-    public void updateTaxiSign(@Validated @RequestBody TaxiSign taxiSign){
-        service.updateTaxiSign(taxiSign);
-    }
 
-//not necessary
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTaxiSign(@PathVariable Long id){
-        service.deleteTaxiSign(id);
-    }
-
-//done
     @GetMapping("")
     public TaxiSignResponse findAllTaxiSigns(){
         return service.findAllTaxiSigns();

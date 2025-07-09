@@ -1,21 +1,20 @@
 package com.taxiapi.Utility;
 
+import com.taxiapi.Mapper.TaxiRouteMapperDtoToEntity;
 import com.taxiapi.Model.TaxiRank;
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Repository.TaxiRankRepository;
 import com.taxiapi.Repository.TaxiRouteRepository;
 import com.taxiapi.Repository.TaxiSignRepository;
-import com.taxiapi.RequestDTO.TaxiRouteDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.taxiapi.DTO.TaxiRouteDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
 public class RouteUtilityService {
-    @Autowired
-    ServiceMapper serviceMapper;
+
 
     public double getTotal(List<TaxiRouteDTO> routes){
         return routes.stream()
@@ -24,49 +23,7 @@ public class RouteUtilityService {
     }
 
 
-    public HashMap<String,List<String>> generateGraph(String fromLocation,
-                                                      TaxiRouteRepository db){
-        HashMap<String,List<String>> graph = new HashMap<>();
-        Queue<String> toVisit = new LinkedList<>();
-        Set<String> visited = new HashSet<>();
-
-        toVisit.add(fromLocation);
-
-        while(!toVisit.isEmpty()){
-            String currentLocation = toVisit.poll();
-
-            if(!visited.contains(currentLocation)){
-
-                visited.add(currentLocation);
-                List<TaxiRoute> routes = getDatabaseRoutes(db,currentLocation);
-                List<String> neighbours = new
-                        ArrayList<>(serviceMapper
-                        .mapToGraphNodes(routes));
-
-                graph.putIfAbsent(currentLocation,neighbours);
-
-                for (String neighbour: neighbours){
-                    if(!visited.contains(neighbour)){
-                        toVisit.add(neighbour);
-                    }
-                }
-
-            }
-
-        }
-
-        return graph;
-
-    }
-
-
-    public List<TaxiRoute> getDatabaseRoutes(TaxiRouteRepository db,
-                                             String fromLocation ){
-        return db.findByFromLocation(fromLocation);
-    }
-
-
-    public boolean isNotFromLocationEqualToLocation(
+    public boolean isFromLocationAndToLocationNotEqual(
                                               String pickUp, String dropOff){
 
         return !pickUp.equalsIgnoreCase(dropOff);
@@ -74,40 +31,79 @@ public class RouteUtilityService {
     }
 
 
-    public void checkIfAddressAndLocationInDatabase(
-            TaxiRankRepository repository,
-            TaxiRouteDTO dto){
+    public Map<String, Long> validateIfEntitiesInDatabase(
+            TaxiRankRepository rankRepository,
+            TaxiSignRepository  signRepository,
+            TaxiRoute route){
 
-//        String pickUpLocation = dto.getPickUpLocation();
-//        String pickUpAddress = dto.getPickUpLocationAddress();
-//
-//        String dropOffLocation = dto.getDropOffLocation();
-//        String dropOffAddress = dto.getDropOffLocationAddress();
-//
-//        boolean resultA = repository
-//                .existsByLocationNameAndLocationAddress(pickUpLocation,
-//                pickUpAddress);
-//
-//        boolean resultB = repository
-//                .existsByLocationNameAndLocationAddress(dropOffLocation,
-//                        dropOffAddress);
-//
-//        if(!resultA) {
-//            System.out.println("Pickup location does not exist but has been added.");
-//            repository
-//                .save(new TaxiRank(pickUpLocation,pickUpAddress));}
-//        if(!resultB) {
-//            System.out.println("Drop off location does not exist but has been added.");
-//
-//            repository
-//                .save(new TaxiRank(dropOffLocation,dropOffAddress));}
+        Map<String,Long> result = new HashMap<>();
+
+        Long signId = validateSignEntityForSave(signRepository,
+                route);
+
+        Long fromTaxiRankId = validateRankEntityForSaving(
+                rankRepository,route
+                        .getFromLocationTaxiRank());
+
+        Long toTaxiRankId = validateRankEntityForSaving(
+                rankRepository,route
+                        .getToLocationTaxiRank());
+
+        result.put("taxiSignId",signId);
+        result.put("fromTaxiRankId", fromTaxiRankId);
+        result.put("toTaxiRankId", toTaxiRankId);
+
+        return result;
+
+    }
 
 
+    public Long validateRankEntityForSaving(TaxiRankRepository
+                              rankRepository,
+                            TaxiRank rank){
+
+        String locationName = rank.getLocationName();
+        String locationAddress = rank.getLocationAddress();
+
+        boolean result = rankRepository
+                .existsByLocationNameAndLocationAddress(locationName,
+                        locationAddress);
+
+        if(!result)
+            rankRepository
+                    .save(new TaxiRank(locationName,
+                            locationAddress));
+        return rankRepository
+                .findByLocationNameAndLocationAddress(
+                        locationName,locationAddress)
+                .getId();
+
+    }
+
+
+    public Long validateSignEntityForSave(TaxiSignRepository
+                              signRepository,
+                              TaxiRoute route){
+
+        String signDescription = route.getTaxiSign()
+                .getSignDescription();
+
+        boolean result = signRepository
+                .existsBySignDescription(signDescription);
+
+        if(!result) signRepository
+                .save(new TaxiSign(signDescription));
+
+        return signRepository
+                .findBySignDescription(
+                        signDescription)
+                .getId();
     }
 
 
     public Long findTaxiRankId(TaxiRankRepository repository,
                                String locationName, String address){
+
         TaxiRank rank =  repository
                 .findByLocationNameAndLocationAddress(
                         locationName,address);
@@ -118,6 +114,7 @@ public class RouteUtilityService {
 
     public Long findTaxiSignId(TaxiSignRepository repository,
                                String signDescription){
+
         TaxiSign taxiSign = repository
                 .findBySignDescription(signDescription);
 
@@ -125,5 +122,60 @@ public class RouteUtilityService {
     }
 
 
+    public TaxiRoute prepareTaxiRouteDtoForSave(TaxiRouteDTO dto,
+                TaxiRankRepository rankRepository,
+                TaxiSignRepository signRepository,
+                TaxiRouteMapperDtoToEntity mapper){
 
+        TaxiRoute route = mapper
+                .toEntity(dto);
+
+        Map<String,Long> result =
+                validateIfEntitiesInDatabase(rankRepository,
+                        signRepository,route);
+
+        route.getFromLocationTaxiRank()
+                .setId(result
+                        .get("fromTaxiRankId"));
+
+        route.getToLocationTaxiRank()
+                .setId(result
+                        .get("toTaxiRankId"));
+
+        route.getTaxiSign()
+                .setId(result
+                        .get("taxiSignId"));
+        return route;
+    }
+
+
+    public boolean checkIfRouteAlreadyExists(
+            TaxiRouteRepository repository,
+            String fromLocation,String toLocation){
+
+        return !repository
+                .existsByFromLocationAndToLocation(
+                        fromLocation,toLocation);
+    }
+
+
+    public TaxiRoute prepareForRouteBidirectionalRoute(TaxiRoute route){
+
+        TaxiRoute bidirectionalRoute = new TaxiRoute();
+
+        bidirectionalRoute.setFromLocation(route.getToLocation());
+        bidirectionalRoute.setFare(route.getFare());
+        bidirectionalRoute.setToLocation(route.getFromLocation());
+        bidirectionalRoute.setTaxiSign(route.getTaxiSign());
+
+        bidirectionalRoute
+                .setFromLocationTaxiRank(
+                        route.getToLocationTaxiRank());
+
+        bidirectionalRoute
+                .setToLocationTaxiRank(
+                        route.getFromLocationTaxiRank());
+
+        return bidirectionalRoute;
+    }
 }
