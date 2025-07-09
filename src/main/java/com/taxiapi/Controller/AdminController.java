@@ -20,13 +20,13 @@ public class AdminController {
     @Autowired
     private AdminServiceManager service;
 
-//done
+
     @GetMapping("")
     public TaxiRoutesResponse findAllRoutes(){
         return service.findAllRoutes();
     }
 
-//done
+
     @PutMapping("/{id}")
     public void updateRoute(@PathVariable Long id,
                             @Validated @RequestBody TaxiRouteDTO route){
@@ -40,20 +40,20 @@ public class AdminController {
         service.deleteRoute(id);
     }
 
-//done
+
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public void saveRoute(@Validated @RequestBody TaxiRouteDTO route){
         service.saveRoute(route);
     }
 
-//done
+
     @PostMapping("/template")
     public FileResponse saveRoutes(@RequestParam("file")MultipartFile file){
         return service.saveFromCSVFile(file);
     }
 
-//done
+
     @GetMapping("/template")
     public ResponseEntity<Resource> getCsvTemplate(){
         ByteArrayResource resource = service.returnCsvTemplate();

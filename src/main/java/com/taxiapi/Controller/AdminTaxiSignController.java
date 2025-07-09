@@ -16,14 +16,12 @@ public class AdminTaxiSignController {
     private AdminServiceManager service;
 
 
-//still have to think about it
     @PutMapping("/{id}")
     public void updateTaxiSign(@RequestParam Long id,@Validated @RequestBody TaxiSignDTO taxiSign){
         service.updateTaxiSign(id,taxiSign);
     }
 
 
-//done
     @GetMapping("")
     public TaxiSignResponse findAllTaxiSigns(){
         return service.findAllTaxiSigns();
