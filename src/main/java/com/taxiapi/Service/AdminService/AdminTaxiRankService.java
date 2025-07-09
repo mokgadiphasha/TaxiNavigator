@@ -44,7 +44,6 @@ public class AdminTaxiRankService extends GenericCrudService<TaxiRank,Long> {
             throw new ResourceNotFoundException("Resource with" +
                     " specified id not found.");
         }
-//        TODO: What happens if the id does not exist
 
     }
 

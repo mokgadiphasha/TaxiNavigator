@@ -43,30 +43,9 @@ public class CSVUtilityService {
             return builder.parse();
 
         } catch (IOException e) {
-            //Todo change using error handling mechanisms in spring
-            throw new RuntimeException(e);
+            throw new FileException("Failed to process file.");
         }
 
-    }
-
-
-    public List<TaxiRoute> mapCsvToTaxiRoute(List<TaxiRouteCsvDto> routes){
-        List<TaxiRoute> routeList = new ArrayList<>();
-
-        for (TaxiRouteCsvDto dto: routes){
-
-            String pickUp = dto.getPickUpLocation();
-            String dropOff = dto.getDropOffLocation();
-
-            if(util.isFromLocationAndToLocationNotEqual(pickUp, dropOff)){
-                TaxiRoute entity = mapperDtoToEntity.toEntity(dto);
-                routeList.add(entity);
-            }
-        }
-
-        return routeList;
-        //TODO: Find a way to save each item by ensuring
-        // no duplicates exist in the process cascade.perisist issue.
     }
 
 
@@ -107,7 +86,6 @@ public class CSVUtilityService {
         return route;
     }
 
-//TODO: FIGURE THIS CODE OUT WHEN YOURE NOT TIRED IF IT WORKS
     public boolean validateHeader(MultipartFile file) throws IOException {
 
         try{

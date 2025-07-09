@@ -38,7 +38,6 @@ public class RouteFinderServiceManager extends GenericCrudService<TaxiRoute,Long
          }
 
         return route;
-         //TODO: What happens if we cant find th route either way
     }
 
 

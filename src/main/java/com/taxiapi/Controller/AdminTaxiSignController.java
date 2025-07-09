@@ -1,5 +1,6 @@
 package com.taxiapi.Controller;
 
+import com.taxiapi.DTO.TaxiSignDTO;
 import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Responses.TaxiSignResponse;
 import com.taxiapi.Service.AdminService.AdminServiceManager;
@@ -16,9 +17,9 @@ public class AdminTaxiSignController {
 
 
 //still have to think about it
-    @PutMapping("")
-    public void updateTaxiSign(@Validated @RequestBody TaxiSign taxiSign){
-        service.updateTaxiSign(taxiSign);
+    @PutMapping("/{id}")
+    public void updateTaxiSign(@RequestParam Long id,@Validated @RequestBody TaxiSignDTO taxiSign){
+        service.updateTaxiSign(id,taxiSign);
     }
 
 

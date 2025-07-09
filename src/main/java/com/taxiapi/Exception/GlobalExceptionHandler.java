@@ -44,7 +44,6 @@ public class GlobalExceptionHandler {
         return util.errorBody(HttpStatus.CONFLICT,ex.getMessage());
     }
 
-//TODO: Test the following exceptions
 
     @ExceptionHandler(FileException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

@@ -1,6 +1,7 @@
 package com.taxiapi.Service.AdminService;
 
 import com.taxiapi.DTO.TaxiRouteCsvDto;
+import com.taxiapi.DTO.TaxiSignDTO;
 import com.taxiapi.Exception.DuplicateResourceException;
 import com.taxiapi.Exception.FileException;
 import com.taxiapi.Exception.ResourceNotFoundException;
@@ -28,7 +29,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-//TODO: Please find a way to deal with all these duplicates that come from cascade.persist
 
 @Service
 public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
@@ -105,17 +105,12 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
                         pickUp,dropOff)){
                 if(util.checkIfRouteAlreadyExists(
                         routeRepository,pickUp,dropOff)){
-                    //TODO: Figure out how to use the method in util to search if the route
-                    // already exists in here because the problem is that we need the route
-                    // repository which should be easy but its not also does it defeat the purpose to have route
-                    // repo in here than use inheritance which makes sense to me i just
-                    // don't know how to safely implement it this is for save and this method
                     TaxiRoute taxiRoute = csvUtil
                             .prepareCsvDtoForSave(dto,
                                     rankRepository,
                                     signRepository,
                                     taxiRouteMapperDtoToEntity);
-//                TODO: Check if bidirectionalism works for the routes
+
                     TaxiRoute bidirectionalRoute = util
                             .prepareForRouteBidirectionalRoute(taxiRoute);
 
@@ -124,12 +119,12 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
                 }
 
             } else {
-                throw new DuplicateResourceException("Pick up and Drop off location " +
+                throw new DuplicateResourceException("Pick up " +
+                        "and Drop off location " +
                         "cannot refer to the same place.");
             }
 
         }
-
 
         createAll(routes);
 
@@ -182,7 +177,6 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
             throw new ResourceNotFoundException("Resource with" +
                     " specified id not found.");
         }
-        //TODO: what happens if the id does not exist
 
     }
 
@@ -204,6 +198,7 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
 
             if(util.checkIfRouteAlreadyExists(routeRepository,
                     pickUp,dropOff)){
+
                 TaxiRoute route = util.prepareTaxiRouteDtoForSave(dto,
                         rankRepository,
                         signRepository,
@@ -218,16 +213,18 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
                 createAll(routes);
             }
         } else {
-            throw new DuplicateResourceException("Pick up and Drop off location " +
+            throw new DuplicateResourceException("Pick up and " +
+                    "Drop off location " +
                     "cannot refer to the same place.");
         }
-        //TODO: figure out the duplication issue with persistence
-        // and what happens if the TO and FROM are the same locations
+
     }
 
 
-    public void updateTaxiSign(TaxiSign entity){
-        taxiSignService.updateTaxiSign(entity);
+    public void updateTaxiSign(Long id, TaxiSignDTO dto){
+            taxiSignService.updateTaxiSign(id,dto);
+
+
     }
 
 

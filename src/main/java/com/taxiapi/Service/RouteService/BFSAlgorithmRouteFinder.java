@@ -81,7 +81,8 @@ public class BFSAlgorithmRouteFinder implements IFindRouteService {
                 }
             }
 
-        return new NoneExistentRouteResponse("We currently do not have that route information.");
+        return new NoneExistentRouteResponse("We currently do not have " +
+                "that route information.");
             //TODO: What to return if route not found - maybe log routes not found
     }
 }

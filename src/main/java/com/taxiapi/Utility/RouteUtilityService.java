@@ -149,7 +149,6 @@ public class RouteUtilityService {
     }
 
 
-//TODO: Call this somewhere in admin service before saving
     public boolean checkIfRouteAlreadyExists(
             TaxiRouteRepository repository,
             String fromLocation,String toLocation){
