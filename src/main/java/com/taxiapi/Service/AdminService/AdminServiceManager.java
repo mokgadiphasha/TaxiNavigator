@@ -2,6 +2,7 @@ package com.taxiapi.Service.AdminService;
 
 import com.taxiapi.DTO.TaxiRouteCsvDto;
 import com.taxiapi.Exception.DuplicateResourceException;
+import com.taxiapi.Exception.FileException;
 import com.taxiapi.Exception.ResourceNotFoundException;
 import com.taxiapi.Mapper.TaxiRouteMapperDtoToEntity;
 import com.taxiapi.Mapper.TaxiRouteMapperEntityToDto;
@@ -10,8 +11,8 @@ import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Repository.TaxiRankRepository;
 import com.taxiapi.Repository.TaxiRouteRepository;
 import com.taxiapi.Repository.TaxiSignRepository;
-import com.taxiapi.RequestDTO.TaxiRankDTO;
-import com.taxiapi.RequestDTO.TaxiRouteDTO;
+import com.taxiapi.DTO.TaxiRankDTO;
+import com.taxiapi.DTO.TaxiRouteDTO;
 import com.taxiapi.Responses.FileResponse;
 import com.taxiapi.Responses.TaxiRankResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
@@ -24,8 +25,9 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 //TODO: Please find a way to deal with all these duplicates that come from cascade.persist
 
 @Service
@@ -38,11 +40,21 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     private final TaxiSignRepository signRepository;
     private final TaxiRouteMapperDtoToEntity taxiRouteMapperDtoToEntity;
     private final TaxiRouteMapperEntityToDto routeMapperEntityToDto;
+    private final TaxiRouteRepository routeRepository;
 
 
     @Autowired
-    public AdminServiceManager(TaxiRouteRepository repository, RouteUtilityService util, CSVUtilityService csvUtil,
-                               AdminTaxiRankService taxiRankService, AdminTaxiSignService taxiSignService, TaxiRankRepository rankRepository, TaxiSignRepository signRepository, TaxiRouteMapperDtoToEntity taxiRouteMapperDtoToEntity, TaxiRouteMapperEntityToDto routeMapperEntityToDto) {
+    public AdminServiceManager(TaxiRouteRepository repository,
+                               RouteUtilityService util,
+                               CSVUtilityService csvUtil,
+                               AdminTaxiRankService taxiRankService,
+                               AdminTaxiSignService taxiSignService,
+                               TaxiRankRepository rankRepository,
+                               TaxiSignRepository signRepository,
+                               TaxiRouteMapperDtoToEntity
+                                           taxiRouteMapperDtoToEntity
+            , TaxiRouteMapperEntityToDto routeMapperEntityToDto,
+                               TaxiRouteRepository routeRepository) {
         super(repository);
         this.util = util;
         this.csvUtil = csvUtil;
@@ -52,6 +64,7 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
         this.signRepository = signRepository;
         this.taxiRouteMapperDtoToEntity = taxiRouteMapperDtoToEntity;
         this.routeMapperEntityToDto = routeMapperEntityToDto;
+        this.routeRepository = routeRepository;
     }
 
 
@@ -67,17 +80,56 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
 
 
     public FileResponse saveFromCSVFile(MultipartFile file){
-        if (file.isEmpty()){
-            return new FileResponse("File received but empty." +
-                    " Please provide content.");
+        try{
+
+            if (csvUtil.validateHeader(file)){
+                throw new FileException("File " +
+                        "columns incorrect.");
+            }
+        } catch (IOException e) {
+            throw new FileException(
+                    "Failed to process file.");
         }
 
-//TODO: Also check if its possible to check for emptiness apart from first line.
 
         List<TaxiRouteCsvDto> routeList = csvUtil.csvToObject(file);
+        List<TaxiRoute> routes = new ArrayList<>();
 
-        List<TaxiRoute> routes = csvUtil
-                .mapCsvToTaxiRoute(routeList);
+
+        for (TaxiRouteCsvDto dto: routeList){
+            String pickUp = dto.getPickUpLocation();
+            String dropOff = dto.getDropOffLocation();
+
+            if(util
+                .isFromLocationAndToLocationNotEqual(
+                        pickUp,dropOff)){
+                if(util.checkIfRouteAlreadyExists(
+                        routeRepository,pickUp,dropOff)){
+                    //TODO: Figure out how to use the method in util to search if the route
+                    // already exists in here because the problem is that we need the route
+                    // repository which should be easy but its not also does it defeat the purpose to have route
+                    // repo in here than use inheritance which makes sense to me i just
+                    // don't know how to safely implement it this is for save and this method
+                    TaxiRoute taxiRoute = csvUtil
+                            .prepareCsvDtoForSave(dto,
+                                    rankRepository,
+                                    signRepository,
+                                    taxiRouteMapperDtoToEntity);
+//                TODO: Check if bidirectionalism works for the routes
+                    TaxiRoute bidirectionalRoute = util
+                            .prepareForRouteBidirectionalRoute(taxiRoute);
+
+                    routes.add(taxiRoute);
+                    routes.add(bidirectionalRoute);
+                }
+
+            } else {
+                throw new DuplicateResourceException("Pick up and Drop off location " +
+                        "cannot refer to the same place.");
+            }
+
+        }
+
 
         createAll(routes);
 
@@ -112,20 +164,20 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
                     .findTaxiSignId(signRepository,
                     dto.getRouteSignDescription());
 
-            TaxiRoute entity = taxiRouteMapperDtoToEntity
+            TaxiRoute route = taxiRouteMapperDtoToEntity
                     .toEntity(dto);
 
-            entity.setId(id);
-            entity.getFromLocationTaxiRank()
+            route.setId(id);
+            route.getFromLocationTaxiRank()
                     .setId(pickUpRankId);
 
-            entity.getToLocationTaxiRank()
+            route.getToLocationTaxiRank()
                     .setId(dropOffRankId);
 
-            entity.getTaxiSign()
+            route.getTaxiSign()
                     .setId(taxiSignId);
 
-            update(entity);
+            update(route);
         } else {
             throw new ResourceNotFoundException("Resource with" +
                     " specified id not found.");
@@ -145,29 +197,26 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
         String pickUp = dto.getPickUpLocation();
         String dropOff = dto.getDropOffLocation();
 
+        List<TaxiRoute> routes = new ArrayList<>();
+
         if(util.isFromLocationAndToLocationNotEqual(
                 pickUp, dropOff)){
 
-            TaxiRoute route = taxiRouteMapperDtoToEntity
-                    .toEntity(dto);
+            if(util.checkIfRouteAlreadyExists(routeRepository,
+                    pickUp,dropOff)){
+                TaxiRoute route = util.prepareTaxiRouteDtoForSave(dto,
+                        rankRepository,
+                        signRepository,
+                        taxiRouteMapperDtoToEntity);
 
-            Map<String,Long> result = util
-                    .validateIfEntitiesInDatabase(rankRepository,
-                    signRepository,route);
+                TaxiRoute bidirectionalRoute = util
+                        .prepareForRouteBidirectionalRoute(route);
 
-            route.getFromLocationTaxiRank()
-                    .setId(result
-                            .get("fromTaxiRankId"));
+                routes.add(route);
+                routes.add(bidirectionalRoute);
 
-            route.getToLocationTaxiRank()
-                    .setId(result
-                            .get("toTaxiRankId"));
-
-            route.getTaxiSign()
-                    .setId(result
-                            .get("taxiSignId"));
-
-            create(route);
+                createAll(routes);
+            }
         } else {
             throw new DuplicateResourceException("Pick up and Drop off location " +
                     "cannot refer to the same place.");
@@ -177,24 +226,15 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     }
 
 
-    public void saveTaxiSign(TaxiSign entity){
-        taxiSignService.saveTaxiSign(entity);
-    }
-
-
     public void updateTaxiSign(TaxiSign entity){
         taxiSignService.updateTaxiSign(entity);
-    }
-
-
-    public void deleteTaxiSign(Long id){
-        taxiSignService.deleteTaxiSign(id);
     }
 
 
     public void saveTaxiRank(TaxiRankDTO dto){
         taxiRankService.saveTaxiRank(dto);
     }
+
 
     public TaxiSignResponse findAllTaxiSigns(){
         return taxiSignService.findAllTaxiSigns();
@@ -203,11 +243,6 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
 
     public void updateTaxiRank(Long id,TaxiRankDTO dto){
         taxiRankService.updateTaxiRank(id,dto);
-    }
-
-
-    public void deleteTaxiRank(Long id){
-        taxiRankService.deleteTaxiRank(id);
     }
 
 

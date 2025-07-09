@@ -1,10 +1,9 @@
 package com.taxiapi.Service.RouteService;
 
-import com.taxiapi.Mapper.TaxiRankMapperEntityToDto;
 import com.taxiapi.Mapper.TaxiRouteMapperEntityToDto;
 import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Repository.TaxiRouteRepository;
-import com.taxiapi.RequestDTO.TaxiRouteDTO;
+import com.taxiapi.DTO.TaxiRouteDTO;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.IFindRouteService;
 import com.taxiapi.Utility.RouteUtilityService;

@@ -1,8 +1,6 @@
 package com.taxiapi.Responses;
 
-import com.taxiapi.Model.TaxiRoute;
-import com.taxiapi.Model.TaxiSign;
-import com.taxiapi.RequestDTO.TaxiSignDTO;
+import com.taxiapi.DTO.TaxiSignDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

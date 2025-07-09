@@ -1,7 +1,6 @@
 package com.taxiapi.Controller;
 
-import com.taxiapi.Model.TaxiRoute;
-import com.taxiapi.RequestDTO.TaxiRouteDTO;
+import com.taxiapi.DTO.TaxiRouteDTO;
 import com.taxiapi.Responses.FileResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.AdminService.AdminServiceManager;

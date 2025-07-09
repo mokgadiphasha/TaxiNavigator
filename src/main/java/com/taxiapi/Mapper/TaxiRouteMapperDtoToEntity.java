@@ -2,11 +2,9 @@ package com.taxiapi.Mapper;
 
 import com.taxiapi.DTO.TaxiRouteCsvDto;
 import com.taxiapi.Model.TaxiRoute;
-import com.taxiapi.RequestDTO.TaxiRouteDTO;
+import com.taxiapi.DTO.TaxiRouteDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
-import java.util.List;
 
 @Mapper(componentModel = "Spring")
 public interface TaxiRouteMapperDtoToEntity {

@@ -1,16 +1,19 @@
 package com.taxiapi.Service;
 
+import lombok.Getter;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+
 public class GenericCrudService<T,ID> implements ICreateService<T>, IDeleteService<ID>, IFindAllService<T>, IUpdateService<T>, IFindById<T,ID>, IExistById<ID>{
 
-    private final JpaRepository<T, ID> repository;
+    private final JpaRepository<T,ID> repository;
 
     public GenericCrudService(JpaRepository<T, ID> repository){
         this.repository = repository;
     }
+    
 
     @Override
     public void create(T entity) {
@@ -25,7 +28,6 @@ public class GenericCrudService<T,ID> implements ICreateService<T>, IDeleteServi
     @Override
     public void  deleteById(ID id) {
         repository.deleteById(id);
-
     }
 
     @Override

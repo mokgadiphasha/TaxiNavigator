@@ -2,7 +2,7 @@ package com.taxiapi.Service.AdminService;
 
 import com.taxiapi.Mapper.TaxiSignMapperEntityToDto;
 import com.taxiapi.Model.TaxiSign;
-import com.taxiapi.RequestDTO.TaxiSignDTO;
+import com.taxiapi.DTO.TaxiSignDTO;
 import com.taxiapi.Responses.TaxiSignResponse;
 import com.taxiapi.Service.GenericCrudService;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,17 +21,8 @@ public class AdminTaxiSignService extends GenericCrudService<TaxiSign,Long> {
     }
 
 
-    public void saveTaxiSign(TaxiSign entity){
-        create(entity);
-    }
-
-
     public void updateTaxiSign(TaxiSign entity){
         update(entity);
-    }
-
-    public void deleteTaxiSign(Long id){
-        deleteById(id);
     }
 
 

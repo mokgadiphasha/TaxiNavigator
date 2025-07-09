@@ -44,5 +44,27 @@ public class GlobalExceptionHandler {
         return util.errorBody(HttpStatus.CONFLICT,ex.getMessage());
     }
 
+//TODO: Test the following exceptions
+
+    @ExceptionHandler(FileException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String,Object> fileException(FileException ex){
+        return util.errorBody(HttpStatus.BAD_REQUEST,ex.getMessage());
+    }
+
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String,Object> generalException(Exception ex){
+        return util.errorBody(HttpStatus.INTERNAL_SERVER_ERROR,
+                "oops! Something went wrong" +
+                        " - It's not you , Its us." +
+                        " We're working on it.");
+    }
+
+
+
+
+
 
 }

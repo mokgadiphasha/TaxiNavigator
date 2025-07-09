@@ -1,7 +1,7 @@
 package com.taxiapi.Mapper;
 
 import com.taxiapi.Model.TaxiSign;
-import com.taxiapi.RequestDTO.TaxiSignDTO;
+import com.taxiapi.DTO.TaxiSignDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
