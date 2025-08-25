@@ -14,7 +14,7 @@ This API has the following features:
     
 - Allows admins to add routes, manage them and also download a CSV template and upload a CSV file with relevant routes for bulk uploads.
     
-- Supports bidirectional routing for each added endpoint.
+- Supports bidirectional routing for each added route.
     
 
 # **Technologies**
