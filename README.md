@@ -2,7 +2,7 @@
 
 # **About**
 
-The **Tax Navigator API** helps commuters easily find public taxi routes between two locations in South Africa. It was created to solve the challenge of navigating taxi routes without needing to rely on strangers for directions, making commuting safer and more convenient.
+The **Taxi Navigator API** helps commuters easily find public taxi routes between two locations in South Africa. It was created to solve the challenge of navigating taxi routes without needing to rely on strangers for directions, making commuting safer and more convenient.
 
 # **Features**
 
@@ -44,6 +44,7 @@ docker compose up --build
  ```
 - Using any testing tool, such as Postman - you may begin sending requests.
 - YouTube: https://youtu.be/M5OqfpXyBh8
+- Postman Documentation: https://documenter.getpostman.com/view/43881123/2sB3HeuiVg
   
 
 # **Testing**
