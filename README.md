@@ -36,6 +36,7 @@ This API has the following features:
     
 
 ``` bash
+git clone git@github.com:mokgadiphasha/TaxiNavigator.git
 cd TaxiNavigator
 mvn clean package
 docker compose up --build
