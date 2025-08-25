@@ -67,11 +67,9 @@ Run tests with:
 # **Future Plans**
 
 - Add adequate testing - testing is in progress.
-    
 - Use CI/CD.
-    
+- Add filter functionality for the admin user.
 - Log exceptions for uncaught exceptions so that the app improves in those areas.
-    
 - Log and allow admins to download the requested routes that are not in the system so they may be added later.
     
 - Front-end implementation.
