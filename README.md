@@ -31,10 +31,10 @@ This API has the following features:
 # **Installation**
 
 - Make sure you have Docker and Maven installed.
+- Make sure Docker is running when performing the installation.
+You can follow the steps below or watch the video linked below for both the installation guide and a demo in action.
+- Follow the following steps as mentioned - In the command line, run :
     
-- Follow the following steps as mentioned - In the command line run :
-    
-
 ``` bash
 git clone git@github.com:mokgadiphasha/TaxiNavigator.git
 cd TaxiNavigator
@@ -42,9 +42,9 @@ mvn clean package
 docker compose up --build
 
  ```
-
 - Using any testing tool, such as Postman - you may begin sending requests.
-    
+- YouTube: https://youtu.be/M5OqfpXyBh8
+  
 
 # **Testing**
 
