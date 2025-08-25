@@ -1,6 +1,7 @@
 package com.taxiapi.Controller;
 
 import com.taxiapi.DTO.TaxiRouteDTO;
+import com.taxiapi.Model.TaxiRoute;
 import com.taxiapi.Responses.FileResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.AdminService.AdminServiceManager;
@@ -28,9 +29,9 @@ public class AdminController {
 
 
     @PutMapping("/{id}")
-    public void updateRoute(@PathVariable Long id,
-                            @Validated @RequestBody TaxiRouteDTO route){
-        service.updateRoute(id, route);
+    public TaxiRouteDTO updateRoute(@PathVariable Long id,
+                                 @Validated @RequestBody TaxiRouteDTO route){
+        return service.updateRoute(id, route);
     }
 
 

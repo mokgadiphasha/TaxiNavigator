@@ -7,7 +7,7 @@ import com.taxiapi.DTO.TaxiRouteDTO;
 import com.taxiapi.Responses.NoneExistentRouteResponse;
 import com.taxiapi.Responses.TaxiRoutesResponse;
 import com.taxiapi.Service.IFindRouteService;
-import com.taxiapi.Utility.RouteAlgorithmnUtility;
+import com.taxiapi.Utility.RouteAlgorithmUtility;
 import com.taxiapi.Utility.RouteUtilityService;
 import com.taxiapi.Utility.ServiceMapperUtility;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.*;
 @Qualifier("algorithmRouteFinder")
 public class BFSAlgorithmRouteFinder implements IFindRouteService {
     private final TaxiRouteRepository repository;
-    private final RouteAlgorithmnUtility routeAlgorithmnUtility;
+    private final RouteAlgorithmUtility routeAlgorithmUtility;
     private final RouteUtilityService routeUtilityService;
     private final ServiceMapperUtility serviceMapperUtility;
     private final TaxiRouteMapperEntityToDto mapperEntityToDto;
@@ -28,10 +28,10 @@ public class BFSAlgorithmRouteFinder implements IFindRouteService {
 
 
     @Autowired
-    public BFSAlgorithmRouteFinder(TaxiRouteRepository repository, RouteAlgorithmnUtility routeAlgorithmnUtility, RouteUtilityService routeUtilityService,
+    public BFSAlgorithmRouteFinder(TaxiRouteRepository repository, RouteAlgorithmUtility routeAlgorithmUtility, RouteUtilityService routeUtilityService,
                                    ServiceMapperUtility serviceMapperUtility, TaxiRouteMapperEntityToDto mapperEntityToDto){
         this.repository = repository;
-        this.routeAlgorithmnUtility = routeAlgorithmnUtility;
+        this.routeAlgorithmUtility = routeAlgorithmUtility;
         this.routeUtilityService = routeUtilityService;
         this.serviceMapperUtility = serviceMapperUtility;
         this.mapperEntityToDto = mapperEntityToDto;
@@ -42,7 +42,7 @@ public class BFSAlgorithmRouteFinder implements IFindRouteService {
         public  TaxiRoutesResponse routeFinder(String fromLocation,
                            String toLocation, TaxiRouteRepository db) {
 
-        HashMap<String, List<String>> graph =  routeAlgorithmnUtility.generateGraph(
+        HashMap<String, List<String>> graph =  routeAlgorithmUtility.generateGraph(
                 fromLocation,repository);
 
         LinkedHashSet<String> visited = new LinkedHashSet<>();

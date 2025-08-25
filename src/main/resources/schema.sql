@@ -23,3 +23,9 @@ CREATE TABLE IF NOT EXISTS "taxi_routes" (
     from_location_rank_id INT REFERENCES taxi_ranks(id),
     to_location_rank_id INT REFERENCES taxi_ranks(id)
 );
+
+CREATE TABLE IF NOT EXISTS "Users" (
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);

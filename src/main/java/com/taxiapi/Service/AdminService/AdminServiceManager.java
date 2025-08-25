@@ -32,6 +32,7 @@ import java.util.List;
 
 @Service
 public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
+
     private final RouteUtilityService util;
     private final CSVUtilityService csvUtil;
     private final AdminTaxiRankService taxiRankService;
@@ -44,9 +45,7 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
 
 
     @Autowired
-    public AdminServiceManager(TaxiRouteRepository repository,
-                               RouteUtilityService util,
-                               CSVUtilityService csvUtil,
+    public AdminServiceManager(TaxiRouteRepository repository, RouteUtilityService util, CSVUtilityService csvUtil,
                                AdminTaxiRankService taxiRankService,
                                AdminTaxiSignService taxiSignService,
                                TaxiRankRepository rankRepository,
@@ -65,6 +64,7 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
         this.taxiRouteMapperDtoToEntity = taxiRouteMapperDtoToEntity;
         this.routeMapperEntityToDto = routeMapperEntityToDto;
         this.routeRepository = routeRepository;
+
     }
 
 
@@ -137,7 +137,7 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
     }
 
 
-    public void updateRoute(Long id , TaxiRouteDTO dto){
+    public TaxiRouteDTO updateRoute(Long id , TaxiRouteDTO dto){
 
         String pickUpLocation = dto.getPickUpLocation();
         String pickUpAddress = dto.getPickUpLocationAddress();
@@ -173,6 +173,8 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
                     .setId(taxiSignId);
 
             update(route);
+
+            return routeMapperEntityToDto.toDto(route);
         } else {
             throw new ResourceNotFoundException("Resource with" +
                     " specified id not found.");
@@ -223,8 +225,6 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
 
     public void updateTaxiSign(Long id, TaxiSignDTO dto){
             taxiSignService.updateTaxiSign(id,dto);
-
-
     }
 
 
