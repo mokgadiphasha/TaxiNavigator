@@ -45,6 +45,7 @@ docker compose up --build
 - Using any testing tool, such as Postman - you may begin sending requests.
 - YouTube: https://youtu.be/M5OqfpXyBh8
 - Postman Documentation: https://documenter.getpostman.com/view/43881123/2sB3HeuiVg
+- Populated Template: https://shorturl.at/MkZ5B
   
 
 # **Testing**
