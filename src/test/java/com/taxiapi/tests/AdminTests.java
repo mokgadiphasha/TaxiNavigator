@@ -65,6 +65,7 @@ public class AdminTests {
 
         assertEquals(3,response.getRoutes().size());
 
+
         for (int i = 0; i < 2; i++) {
             TaxiRouteDTO actual = response.getRoutes().get(i);
             TaxiRouteDTO expected = taxiRoutes.get(i);
@@ -170,7 +171,23 @@ public class AdminTests {
                 "routeSignDescription".trim(),csv.trim()                                                                               );
 
     }
-    
+
+
+    @Test
+    void shouldDeleteRoute() throws Exception {
+
+        testUtil.deleteResult(url,1L);
+
+        mvcResult = testUtil.getResult(url);
+
+        TaxiRoutesResponse actual = testUtil
+                .convertMVCResultToObject(mvcResult,TaxiRoutesResponse.class);
+
+        assertEquals(2,actual.getRoutes().size());
+
+
+
+    }
     
     @BeforeEach
     void setup() {

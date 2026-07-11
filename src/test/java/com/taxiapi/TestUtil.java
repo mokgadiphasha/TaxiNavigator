@@ -7,13 +7,12 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Component
@@ -71,7 +70,7 @@ public class TestUtil {
 
 
     public <T> MvcResult putResult(String url, T object,Long id) throws Exception {
-        return mockMvc.perform(put(url + "/{id}", 1L)
+        return mockMvc.perform(put(url + "/{id}", id)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertToJSON(object)))
                 .andExpect(status().isOk())
@@ -79,5 +78,8 @@ public class TestUtil {
     }
 
 
-
+   public <T> void  deleteResult(String url, Long id) throws Exception {
+       mockMvc.perform(delete(url + "/{id}",id ))
+               .andExpect(status().isNoContent());
+   }
 }
