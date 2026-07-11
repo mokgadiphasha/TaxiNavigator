@@ -149,7 +149,6 @@ public class AdminTests {
 
         TaxiRoutesResponse actual = testUtil
                 .convertMVCResultToObject(mvcResult,TaxiRoutesResponse.class);
-
         assertEquals(9,actual.getRoutes().size());
     }
 
