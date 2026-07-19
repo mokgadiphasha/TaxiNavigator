@@ -1,6 +1,7 @@
 package com.taxiapi.Service;
 
 import lombok.Getter;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class GenericCrudService<T,ID> implements ICreateService<T>, IDeleteServi
 
     @Override
     public List<T> findAll() {
-       return repository.findAll();
+       return repository.findAll(Sort.by("id"));
     }
 
     @Override

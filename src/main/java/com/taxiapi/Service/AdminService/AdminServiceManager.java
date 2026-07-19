@@ -8,7 +8,6 @@ import com.taxiapi.Exception.ResourceNotFoundException;
 import com.taxiapi.Mapper.TaxiRouteMapperDtoToEntity;
 import com.taxiapi.Mapper.TaxiRouteMapperEntityToDto;
 import com.taxiapi.Model.TaxiRoute;
-import com.taxiapi.Model.TaxiSign;
 import com.taxiapi.Repository.TaxiRankRepository;
 import com.taxiapi.Repository.TaxiRouteRepository;
 import com.taxiapi.Repository.TaxiSignRepository;
@@ -103,7 +102,7 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
             if(util
                 .isFromLocationAndToLocationNotEqual(
                         pickUp,dropOff)){
-                if(util.checkIfRouteAlreadyExists(
+                if(util.RouteDoesNotExist(
                         routeRepository,pickUp,dropOff)){
                     TaxiRoute taxiRoute = csvUtil
                             .prepareCsvDtoForSave(dto,
@@ -114,11 +113,13 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
                     TaxiRoute bidirectionalRoute = util
                             .prepareForRouteBidirectionalRoute(taxiRoute);
 
-                    routes.add(taxiRoute);
-                    routes.add(bidirectionalRoute);
+
+                    create(taxiRoute);
+                    create(bidirectionalRoute);
                 }
 
-            } else {
+            }
+            else {
                 throw new DuplicateResourceException("Pick up " +
                         "and Drop off location " +
                         "cannot refer to the same place.");
@@ -126,7 +127,7 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
 
         }
 
-        createAll(routes);
+//        createAll(routes);
 
         return new FileResponse("File received.");
     }
@@ -198,7 +199,7 @@ public class AdminServiceManager extends GenericCrudService<TaxiRoute,Long> {
         if(util.isFromLocationAndToLocationNotEqual(
                 pickUp, dropOff)){
 
-            if(util.checkIfRouteAlreadyExists(routeRepository,
+            if(util.RouteDoesNotExist(routeRepository,
                     pickUp,dropOff)){
 
                 TaxiRoute route = util.prepareTaxiRouteDtoForSave(dto,

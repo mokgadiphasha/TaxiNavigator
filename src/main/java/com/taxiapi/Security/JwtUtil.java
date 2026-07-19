@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
+
     private static final String  secretKey = "MySecretKeyIs1000" +
             "ForTheTaxiNavigatorAPI*";
     private final Key key = Keys.hmacShaKeyFor(secretKey.getBytes());

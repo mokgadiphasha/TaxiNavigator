@@ -149,7 +149,7 @@ public class RouteUtilityService {
     }
 
 
-    public boolean checkIfRouteAlreadyExists(
+    public boolean RouteDoesNotExist(
             TaxiRouteRepository repository,
             String fromLocation,String toLocation){
 
