@@ -89,6 +89,7 @@ public class TaxiRankTests {
                 "111 Rosebank Johannesburg");
 
         taxiRank.add(item1);
+        taxiRank.add(item2);
 
 
 
