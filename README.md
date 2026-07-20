@@ -1,4 +1,19 @@
 # Taxi Navigator API
+![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![Spring Security](https://img.shields.io/badge/Spring_Security-JWT-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+![JUnit_5](https://img.shields.io/badge/JUnit_5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
+![Mockito](https://img.shields.io/badge/Mockito-78A641?style=for-the-badge)
+![H2](https://img.shields.io/badge/H2_Database-09476B?style=for-the-badge)
+![Maven](https://img.shields.io/badge/Apache_Maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
+![Render](https://img.shields.io/badge/Render-Deployed-46E3B7?style=for-the-badge&logo=render&logoColor=white)
+[![Live API](https://img.shields.io/badge/Live_API-Online-success?style=for-the-badge&logo=render)](https://taxinavigator-api.onrender.com)
+[![Postman Docs](https://img.shields.io/badge/Postman-Documentation-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](https://documenter.getpostman.com/view/43881123/2sB3HeuiVg)
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/M5OqfpXyBh8)
+![Build](https://github.com/mokgadiphasha/TaxiNavigator/actions/workflows/build.yml/badge.svg)
 
 ## About
 The Taxi Navigator API is a RESTful Spring Boot application that helps commuters find public taxi routes between two locations in South Africa. It was created to make commuting easier by providing route information digitally, reducing the need to rely on strangers for directions.
