@@ -1,80 +1,143 @@
-# **Taxi Navigator API**
+# Taxi Navigator API
 
-# **About**
+## About
+The Taxi Navigator API is a RESTful Spring Boot application that helps commuters find public taxi routes between two locations in South Africa. It was created to make commuting easier by providing route information digitally, reducing the need to rely on strangers for directions.
 
-The **Taxi Navigator API** helps commuters easily find public taxi routes between two locations in South Africa. It was created to solve the challenge of navigating taxi routes without needing to rely on strangers for directions, making commuting safer and more convenient.
+The API allows administrators to manage taxi routes while providing public endpoints that commuters can use to discover available routes.
 
-# **Features**
+## Live API
+The application is deployed on Render.
 
-This API has the following features:
+**Base URL**
+```text
+https://taxinavigator-api.onrender.com
+```
 
-- Allows admins to authenticate using JWTs with Spring Security - Endpoints under `/api/admin/**` require JWT authentication. Endpoints under `/api/users/**` are public.
-    
-- Uses database routes or an algorithm to find a route from A to B with relevant information in relation to routes.
-    
-- Allows admins to add routes, manage them and also download a CSV template and upload a CSV file with relevant routes for bulk uploads.
-    
-- Supports bidirectional routing for each added route.
-    
+To use the hosted API, simply replace:
+```text
+http://localhost:8080
+```
+with
+```text
+https://taxinavigator-api.onrender.com
+```
+when making requests from Postman or any HTTP client.
 
-# **Technologies**
+## Features
+- JWT authentication and authorization using Spring Security.
+- Secure admin endpoints under `/api/admin/**`.
+- Public endpoints for commuters under `/api/users/**`.
+- Find available taxi routes between two locations.
+- Supports direct and multi-stop route navigation.
+- Bidirectional routing for every stored route.
+- Create, update and delete taxi routes.
+- Bulk route uploads using CSV files.
+- Downloadable CSV template for importing routes.
+- Spring Boot Actuator health endpoint.
+- Dockerized for local development.
+- Deployed on Render with automatic deployment on push to `main`.
 
-- **Java 17**
-    
-- Uses Spring Boot with Spring Security, Spring JPA, tests, Lombok,mapstruct and Open CSV.
-    
-- Docker containers for app and database containerization.
-    
-- PostgreSQL database as a storage medium running via a Docker container.
-    
+## Technologies
 
-# **Installation**
+**Backend**
+- Java 17
+- Spring Boot 3
+- Spring Security (JWT)
+- Spring Data JPA
+- PostgreSQL
+- Spring Boot Actuator
 
-- Make sure you have Docker and Maven installed.
-- Make sure Docker is running when performing the installation.
-- You can follow the steps below or watch the video linked below for both the installation guide and a demo in action.
-- Follow the following steps as mentioned - In the command line, run :
-    
-``` bash
-git clone git@github.com:mokgadiphasha/TaxiNavigator.git
+**Utilities**
+- Lombok
+- MapStruct
+- OpenCSV
+
+**Testing**
+- JUnit 5
+- Mockito
+- MockMvc
+- AssertJ
+- H2 (in-memory database, used for integration tests)
+
+**DevOps**
+- Docker (local development)
+- GitHub Actions (CI)
+- Qodana (static code analysis)
+- Render (hosting and deployment)
+
+## Running Locally
+
+**Prerequisites**
+- Java 17
+- Maven
+- Docker Desktop
+
+Ensure Docker Desktop is running before starting the application.
+
+**Clone the repository**
+```bash
+git clone https://github.com/mokgadiphasha/TaxiNavigator.git
 cd TaxiNavigator
+```
+
+**Build the project**
+```bash
 mvn clean package
+```
+
+**Start the application**
+```bash
 docker compose up --build
+```
 
- ```
-- Using any testing tool, such as Postman - you may begin sending requests.
-- YouTube: https://youtu.be/M5OqfpXyBh8
-- Postman Documentation: https://documenter.getpostman.com/view/43881123/2sB3HeuiVg
-- Populated Template: https://shorturl.at/MkZ5B
-  
+The API will be available at:
+```text
+http://localhost:8080
+```
 
-# **Testing**
+## Testing
+The project contains both unit and integration tests, currently covering core happy-path scenarios. Negative and edge-case coverage is in progress.
 
-Testing includes both unit and integration tests. The test suite leverages:
+**Testing Frameworks**
+- JUnit 5
+- Mockito
+- MockMvc
+- AssertJ
+- H2 (in-memory database)
 
-- **JUnit** – For structured test cases
-    
-- **Mockito** – For mocking dependencies
-    
-- **MockMvc** – For testing MVC endpoints
-    
-- **Testcontainers** – For running PostgreSQL in Docker during integration tests
-    
+Run all tests using:
+```bash
+mvn test
+```
+or
+```bash
+mvn clean verify
+```
 
-Run tests with:
+## Continuous Integration & Deployment
+Every push and pull request automatically triggers GitHub Actions to:
+- Build the application
+- Run automated tests
+- Verify the Maven build
+- Execute Qodana static code analysis
 
-- mvn test
-    
+Render is connected directly to the repository. Every push to `main` that passes CI automatically triggers a new deployment, so the live API always reflects the latest committed code.
 
-# **Future Plans**
+## API Documentation
+- **Postman Collection:** https://documenter.getpostman.com/view/43881123/2sB3HeuiVg
+- **Demo Video:** https://youtu.be/M5OqfpXyBh8
+- **CSV Template:** https://tinyurl.com/292jsamb
 
-- Add adequate testing - testing is in progress.
-- Use CI/CD.
-- Add filter functionality for the admin user.
-- Log exceptions for uncaught exceptions so that the app improves in those areas.
-- Log and allow admins to download the requested routes that are not in the system so they may be added later.
-    
-- Front-end implementation.
+## Future Improvements
+- Improve route-finding algorithms for more optimal journeys.
+- Support location aliases (e.g. "MTN Noord", "Noord Taxi Rank", "Johannesburg Taxi Rank").
+- Add filtering and searching capabilities for administrators.
+- Log unavailable route requests so they can be added in future updates.
+- Improve exception monitoring and application logging.
+- Expand taxi route coverage across South Africa.
+- Develop a front-end application for commuters.
 
-  # **Contact Details**
-  If you have any feedback or would like to collaborate, please email me at phashamokgadi631@gmail.com
+## Contact
+If you have any feedback, suggestions, or would like to collaborate, feel free to get in touch.
+
+Email: phashamokgadi631@gmail.com
